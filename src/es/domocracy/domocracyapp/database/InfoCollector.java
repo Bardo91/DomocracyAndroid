@@ -15,20 +15,20 @@ public class InfoCollector {
 		List<Room> rooms = new ArrayList<Room>();
 		
 		String[] roomNames = {"Timmy", "Johny", "Tony", "Colly", "Polly"};
-		String[] deviceNames = {"Lamp", "Switch", "LightBulb", "Laundry", "Smartphone Charger"};
+		//String[] deviceNames = {"Lamp", "Switch", "LightBulb", "Laundry", "Smartphone Charger"};
 		
 		Random random = new Random();
 		int nRooms = random.nextInt(3) + 2;
 		for(int i = 0; i <  nRooms; i++){
 			List<Device> devices = new ArrayList<Device>();
-			int nDevices = random.nextInt(3)+2;
-			for(int j = 0 ; j < nDevices; j++){
-				devices.add(Device.getDevice(	(byte) 0x1C, 
-												deviceNames[random.nextInt(5)], 
-												new DeviceType(), 
-												null, 
-												_hubConnection));
-			}
+			//int nDevices = random.nextInt(3)+2;
+			//for(int j = 0 ; j < nDevices; j++){
+			//	devices.add(Device.getDevice(	(byte) 0x1C, 
+			//									deviceNames[random.nextInt(5)], 
+			//									new DeviceType(), 
+			//									null, 
+			//									_hubConnection));
+			//}
 			
 			rooms.add(new Room(UUID.randomUUID(), roomNames[i], devices));
 		}

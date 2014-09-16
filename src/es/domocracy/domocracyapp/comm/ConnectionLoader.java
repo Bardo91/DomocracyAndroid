@@ -19,7 +19,7 @@ public class ConnectionLoader {
 
 	// -----------------------------------------------------------------------------------
 	// ConnectionLoader members
-	private HubConnection mCurrentConnection;
+	static private HubConnection mCurrentConnection;
 	private List<Hub> mHubList;
 	private ServiceDNS mServiceDNS;
 	
@@ -27,7 +27,7 @@ public class ConnectionLoader {
 	// ConnectionLoader public interface
 	public ConnectionLoader(Context _context) {
 		mHubList = new ArrayList<Hub>();
-		//mServiceDNS = new ServiceDNS(_context);		
+		mServiceDNS = new ServiceDNS(_context);		
 		
 		mCurrentConnection = new HubConnection();
 		
@@ -36,16 +36,16 @@ public class ConnectionLoader {
 	// -----------------------------------------------------------------------------------
 	public HubConnection connect(){
 		// Call Service DNS to look for a new hub and addit to the top of the list
-		//mHubList.add(0, mServiceDNS.getConnectionInfo());
+		mHubList.add(0, mServiceDNS.getConnectionInfo());
 		
 		//------------------------------- 666 to test with pc
-		InetAddress addr = null;
-		try {
-			addr = InetAddress.getByName("192.168.1.26");
-		} catch (Exception e) {
-		}
+		//InetAddress addr = null;
+		//try {
+		//	addr = InetAddress.getByName("192.168.1.26");
+		//} catch (Exception e) {
+		//}
 		
-		mHubList.add(new Hub("Rinoceronte", UUID.randomUUID(), addr , 5028));
+		//mHubList.add(new Hub("Rinoceronte", UUID.randomUUID(), addr , 5028));
 		//------------------------------- 666 to test with pc
 		
 		// Connect to the newest hub		
@@ -55,7 +55,7 @@ public class ConnectionLoader {
 	}
 	
 	// -----------------------------------------------------------------------------------
-	public HubConnection currentConnection(){
+	static public HubConnection currentConnection(){
 		return mCurrentConnection;
 	}
 	
