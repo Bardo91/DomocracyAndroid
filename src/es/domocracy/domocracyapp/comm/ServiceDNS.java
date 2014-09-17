@@ -100,6 +100,8 @@ public class ServiceDNS {
 				mServiceInfo = _serviceInfo;
 				mPort = mServiceInfo.getPort();
 				mHost = mServiceInfo.getHost();
+				
+				Log.d("DMC-DEBUG", "Detected hub with addr:" + mHost + " and port: " + mPort);
 			}
 		};
 	}
