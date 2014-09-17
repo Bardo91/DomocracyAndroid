@@ -45,7 +45,9 @@ public class Room {
 
 	// -----------------------------------------------------------------------------------
 	public void addDevice(Device _device){
-		mDevices.add(_device);
+		if(!mDevices.contains(_device)){
+			mDevices.add(_device);
+		}
 		
 	}
 	
