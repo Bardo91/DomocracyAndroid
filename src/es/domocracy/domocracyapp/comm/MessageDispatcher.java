@@ -61,7 +61,7 @@ public class MessageDispatcher {
 			@Override
 			public void run() {
 				for(;;){
-					if(!mCurrentConnection.isConnected())
+					if(mCurrentConnection == null || !mCurrentConnection.isConnected())
 						continue;
 					// Get string from input buffer 
 					Message msg = mCurrentConnection.readBuffer();	// TODO: 666 Don't check if there are more than 1 message together

@@ -25,6 +25,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import es.domocracy.domocracyapp.R;
 import es.domocracy.domocracyapp.comm.HubConnection;
 import es.domocracy.domocracyapp.comm.Message;
@@ -45,12 +46,14 @@ public class UserRooms extends BaseAdapter {
 
 	private DeviceList mDeviceList;
 
+	private Activity mActivity;
 	private MessageListener mMessageListener;
 
 	// -----------------------------------------------------------------------------------
 	// RoomList basic interface
 	public UserRooms(Activity _activity, DeviceList _deviceList,
 			HubConnection _hubConnection) {
+		mActivity = _activity;
 		mTypeface = Typeface.createFromAsset(_activity.getAssets(),
 				"multicolore.otf");
 
@@ -59,7 +62,6 @@ public class UserRooms extends BaseAdapter {
 		mRoomList = new ArrayList<Room>();
 		initUI(_activity);
 		initMessageListener();
-
 	}
 
 	// -----------------------------------------------------------------------------------
@@ -156,7 +158,7 @@ public class UserRooms extends BaseAdapter {
 		mMessageListener = new MessageListener(supportedTypes) {
 
 			@Override
-			public void onMessage(Message _message) {
+			public void onMessage(final Message _message) {
 				// 666 TODO: do whatelse with messages.
 				Log.d("DMC-DEBUG", "UserRooms received a message of type: " + _message.type());
 				
@@ -166,6 +168,16 @@ public class UserRooms extends BaseAdapter {
 																	new DeviceType(), 
 																	null, 
 																	null));
+					mActivity.runOnUiThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							mDeviceList.notifyDataSetChanged();
+							Toast.makeText(	mActivity, 
+											"Added new Device" + new String(Arrays.copyOfRange(_message.payload(), 1, _message.payload().length)), 
+											Toast.LENGTH_SHORT).show();
+						}
+					});
 				}	
 			}
 		};
