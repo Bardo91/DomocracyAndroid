@@ -46,6 +46,7 @@ public class UserRooms extends BaseAdapter {
 
 	private DeviceList mDeviceList;
 
+	private HubConnection mCurrentConnection;
 	private Activity mActivity;
 	private MessageListener mMessageListener;
 
@@ -57,6 +58,7 @@ public class UserRooms extends BaseAdapter {
 		mTypeface = Typeface.createFromAsset(_activity.getAssets(),
 				"multicolore.otf");
 
+		mCurrentConnection = _hubConnection;
 		mDeviceList = _deviceList;
 
 		mRoomList = new ArrayList<Room>();
@@ -167,7 +169,7 @@ public class UserRooms extends BaseAdapter {
 																	new String(Arrays.copyOfRange(_message.payload(), 1, _message.payload().length)), 
 																	new DeviceType(), 
 																	null, 
-																	null));
+																	mCurrentConnection));
 					mActivity.runOnUiThread(new Runnable() {
 						
 						@Override
