@@ -46,15 +46,7 @@ public class ServiceNSD {
 	// -----------------------------------------------------------------------------------
 	public Hub getConnectionInfo(){
 		startServiceDiscovery();
-		
-		Long t0 = System.currentTimeMillis();
-		while(mPort == -1){
-			Long t1 = System.currentTimeMillis();
-			if(t1 - t0 >= TIMEOUT){
-				break;
-			}
-		}
-		
+		timeout();
 		stopServiceDiscovery();
 		
 		return new Hub("Rinoceronte", UUID.randomUUID(), mHost, mPort);
@@ -75,6 +67,17 @@ public class ServiceNSD {
 	private void stopServiceDiscovery() {
 		mNsdManager.stopServiceDiscovery(mDiscoveryListener);
 
+	}
+	
+	// -----------------------------------------------------------------------------------
+	private void timeout(){
+		Long t0 = System.currentTimeMillis();
+		while(mPort == -1){
+			Long t1 = System.currentTimeMillis();
+			if(t1 - t0 >= TIMEOUT){
+				break;
+			}
+		}
 	}
 	
 	
