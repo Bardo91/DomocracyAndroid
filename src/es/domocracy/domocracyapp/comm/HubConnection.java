@@ -37,7 +37,7 @@ public class HubConnection {
 
 	// -----------------------------------------------------------------------------------
 	public boolean sendMsg(Message _msg) {
-		if (mHubSocket.isConnected()) {
+		if (mHubSocket != null && mHubSocket.isConnected()) {
 			try {
 				mOutStream.write(_msg.rawMessage());
 				return true;
