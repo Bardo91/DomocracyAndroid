@@ -30,7 +30,7 @@ public class ServiceDNS {
 	private int mPort = -1;
 	private InetAddress mHost = null;
 	
-	private final int TIMEOUT = 1000;	// 1000 ms.
+	private final int TIMEOUT = 5000;	// 1000 ms.
 
 	// -----------------------------------------------------------------------------------
 	// -------- Public Interface
@@ -95,7 +95,7 @@ public class ServiceDNS {
 			// -----------------------------------------------------------------------------------
 			@Override
 			public void onServiceResolved(NsdServiceInfo _serviceInfo) {
-				Log.d("DMC", "Resolved succeeded: " + _serviceInfo);
+				Log.d("DMC-DEBUG", "Resolved succeeded: " + _serviceInfo);
 
 				mServiceInfo = _serviceInfo;
 				mPort = mServiceInfo.getPort();
@@ -117,13 +117,13 @@ public class ServiceDNS {
 			// -----------------------------------------------------------------------------------
 			@Override
 			public void onDiscoveryStarted(String _regType) {
-				Log.d("DMC", "Started NSD");
+				Log.d("DMC-DEBUG", "Started NSD");
 			}
 
 			// -----------------------------------------------------------------------------------
 			@Override
 			public void onDiscoveryStopped(String _serviceType) {
-				Log.d("DMC", "Stopped NSD: " + _serviceType);
+				Log.d("DMC-DEBUG", "Stopped NSD");
 
 			}
 
@@ -131,7 +131,7 @@ public class ServiceDNS {
 			@Override
 			public void onServiceFound(NsdServiceInfo _service) {
 				// Found Service
-				Log.d("DMC", "Service discovery success" + _service);
+				Log.d("DMC-DEBUG", "Service discovery success" + _service);
 				if (_service.getServiceName().contains(DOMOCRACY_HUB_SERVICE)) {
 					// Found Domocracy's service.
 					mNsdManager.resolveService(_service, mResolveListener);
