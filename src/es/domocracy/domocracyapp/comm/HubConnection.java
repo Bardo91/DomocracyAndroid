@@ -40,6 +40,7 @@ public class HubConnection {
 		if (mHubSocket != null && mHubSocket.isConnected()) {
 			try {
 				mOutStream.write(_msg.rawMessage());
+				Log.d("DMC-DEBUG", "Sended msg: " + _msg.rawMessage());
 				return true;
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -165,11 +165,12 @@ public class UserRooms extends BaseAdapter {
 				Log.d("DMC-DEBUG", "UserRooms received a message of type: " + _message.type());
 				
 				if(_message.type() == Message.Type.InfoDevice.value){
-					mRoomList.get(0).addDevice(Device.getDevice(	_message.payload()[0], 
+					mRoomList.get(0).addDevice(Device.getDevice(	_message.payload()[1], 
 																	new String(Arrays.copyOfRange(_message.payload(), 1, _message.payload().length)), 
 																	new DeviceType(), 
 																	null, 
 																	mCurrentConnection));
+					Log.d("DMC-DEBUG", "Added new device to room");
 					mActivity.runOnUiThread(new Runnable() {
 						
 						@Override
@@ -178,6 +179,7 @@ public class UserRooms extends BaseAdapter {
 							Toast.makeText(	mActivity, 
 											"Added new Device" + new String(Arrays.copyOfRange(_message.payload(), 1, _message.payload().length)), 
 											Toast.LENGTH_SHORT).show();
+							Log.d("DMC-DEBUG", "Update UI");
 						}
 					});
 				}	
