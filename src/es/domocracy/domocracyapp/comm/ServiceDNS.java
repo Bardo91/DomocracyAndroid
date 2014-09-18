@@ -131,7 +131,7 @@ public class ServiceDNS {
 			@Override
 			public void onServiceFound(NsdServiceInfo _service) {
 				// Found Service
-				Log.d("DMC-DEBUG", "Service discovery success" + _service);
+				Log.d("DMC-DEBUG", "Service discovery success with name: " + _service.getServiceName() + " and type: " + _service.getServiceType());
 				if (_service.getServiceName().contains(DOMOCRACY_HUB_SERVICE)) {
 					// Found Domocracy's service.
 					mNsdManager.resolveService(_service, mResolveListener);
