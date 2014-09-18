@@ -21,13 +21,13 @@ public class ConnectionLoader {
 	// ConnectionLoader members
 	static private HubConnection mCurrentConnection;
 	private List<Hub> mHubList;
-	private ServiceDNS mServiceDNS;
+	private ServiceNSD mServiceDNS;
 	
 	// -----------------------------------------------------------------------------------
 	// ConnectionLoader public interface
 	public ConnectionLoader(Context _context) {
 		mHubList = new ArrayList<Hub>();
-		mServiceDNS = new ServiceDNS(_context);		
+		mServiceDNS = new ServiceNSD(_context);		
 		
 		mCurrentConnection = new HubConnection();
 		

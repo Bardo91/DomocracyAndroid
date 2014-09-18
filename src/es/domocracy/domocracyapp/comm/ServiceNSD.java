@@ -18,7 +18,7 @@ import android.net.nsd.NsdManager.ResolveListener;
 import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
 
-public class ServiceDNS {
+public class ServiceNSD {
 	final public static String DOMOCRACY_HUB_SERVICE = "domocracy";
 	final public static String DOMOCRACY_HUB_SERVICE_TYPE = "_dmc._tcp";
 
@@ -30,11 +30,11 @@ public class ServiceDNS {
 	private int mPort = -1;
 	private InetAddress mHost = null;
 	
-	private final int TIMEOUT = 5000;	// 1000 ms.
+	private final int TIMEOUT = 10000;	// 1000 ms.
 
 	// -----------------------------------------------------------------------------------
 	// -------- Public Interface
-	public ServiceDNS(Context _context) {
+	public ServiceNSD(Context _context) {
 		initializeDiscoveryListener();
 		initializeResolveListener();
 
