@@ -49,7 +49,7 @@ public class HubConnection {
 	}
 	// -----------------------------------------------------------------------------------
 	public Message readBuffer(){
-		if(mHubSocket.isConnected()){
+		if(mHubSocket != null && mHubSocket.isConnected()){
 			byte[] buffer = new byte[1024];
 			
 			int nBytes = 0;
