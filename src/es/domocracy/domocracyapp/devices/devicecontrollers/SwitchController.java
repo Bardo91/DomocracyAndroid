@@ -47,7 +47,7 @@ public class SwitchController extends DeviceController {
 	//-----------------------------------------------------------------------------------
 	@Override
 	public void updateControllerState(DeviceState _state) {
-		mSwitchVal = _state.state() == 0xFF ? true : false;
+		mSwitchVal = _state.isOn();
 		
 	}
 
@@ -55,12 +55,10 @@ public class SwitchController extends DeviceController {
 	// SwitchController private interface
 	@Override
 	protected void sendInstruction() {
-
-		// Update Device's State
-		DeviceState state = new DeviceState();
-		state.setState((byte) (mSwitchVal? 0xFF : 0x00));
-		
-		mOwner.updateState(state);
+		if(mSwitchVal)
+			mOwner.state().setOn();
+		else
+			mOwner.state().setOff();
 		
 		// Send instruction
 		byte[] payload = {mOwner.UUID()};
@@ -69,8 +67,7 @@ public class SwitchController extends DeviceController {
 									payload);
 		
 		mOwner.sendInstruction(msg);
-		
-		
+
 	}
 
 }

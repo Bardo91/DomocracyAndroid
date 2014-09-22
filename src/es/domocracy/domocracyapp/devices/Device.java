@@ -78,14 +78,6 @@ public class Device {
 	}
 	
 	// -----------------------------------------------------------------------------------
-	public void updateState(DeviceState _state){
-		// Update current state;
-		mState.setState(_state.state());
-		
-	}
-		
-	
-	// -----------------------------------------------------------------------------------
 	// Device private interface
 	private Device(byte _uuid, String _name, DeviceType _type, DeviceState _state, HubConnection _hubConnection) {
 		mUUID = _uuid;
