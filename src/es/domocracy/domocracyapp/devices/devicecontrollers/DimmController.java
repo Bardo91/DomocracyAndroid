@@ -72,14 +72,14 @@ public class DimmController extends DeviceController {
 		state.setState(mDimmVal);
 		
 
-		mOwnerInstance.updateState(state);
+		mOwner.updateState(state);
 		
 		//Send Instruction
-		byte[] payload = {mOwnerInstance.UUID(), mDimmVal};
+		byte[] payload = {mOwner.UUID(), mDimmVal};
 		Message msg = new Message(	(byte) 0x04, 
 									Message.Type.Dimmer.value, 
 									payload);
-		mOwnerInstance.sendInstruction(msg);
+		mOwner.sendInstruction(msg);
 		
 	}
 

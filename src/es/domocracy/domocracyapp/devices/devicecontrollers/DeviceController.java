@@ -9,14 +9,14 @@ public abstract class DeviceController{
 	// -----------------------------------------------------------------------------------
 	// DeviceControl members
 
-	protected Device mOwnerInstance;
+	protected Device mOwner;
 	protected View mControllerView;
 	
 
 	// -----------------------------------------------------------------------------------
 	//DeviceControl basic interface
 	public DeviceController(Device _owner){
-		mOwnerInstance = _owner;
+		mOwner = _owner;
 		
 	}
 	

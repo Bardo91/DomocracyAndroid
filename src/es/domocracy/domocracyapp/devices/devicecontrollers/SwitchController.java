@@ -60,15 +60,15 @@ public class SwitchController extends DeviceController {
 		DeviceState state = new DeviceState();
 		state.setState((byte) (mSwitchVal? 0xFF : 0x00));
 		
-		mOwnerInstance.updateState(state);
+		mOwner.updateState(state);
 		
 		// Send instruction
-		byte[] payload = {mOwnerInstance.UUID()};
+		byte[] payload = {mOwner.UUID()};
 		Message msg = new Message(	(byte) 0x03,
 									mSwitchVal ? Message.Type.ON.value : Message.Type.OFF.value, 
 									payload);
 		
-		mOwnerInstance.sendInstruction(msg);
+		mOwner.sendInstruction(msg);
 		
 		
 	}
