@@ -65,7 +65,7 @@ public class Device {
 			
 			for (DeviceController controller : mControllers) {
 				((LinearLayout) mDeviceView.findViewById(R.id.device_layout))
-						.addView(controller.constructView(_context));
+						.addView(controller.getView(_context));
 			}
 		}
 		return mDeviceView;
