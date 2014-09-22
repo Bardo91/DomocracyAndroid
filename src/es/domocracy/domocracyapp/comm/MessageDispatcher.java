@@ -58,11 +58,19 @@ public class MessageDispatcher {
 		
 		// Start a thread for hearing
 		Thread listeningThread = new Thread() {
+			final long sleepTime = 5;			// Time to spend asleep when there's no connection
+			
 			@Override
 			public void run() {
 				for(;;){
-					if(mHubConnection == null || !mHubConnection.isConnected())
+					if(mHubConnection == null || !mHubConnection.isConnected()){
+						try {
+							sleep(sleepTime);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 						continue;
+					}
 					// Get string from input buffer 
 					Message msg = mHubConnection.readBuffer();	// TODO: 666 Doesn't check if there is more than 1 message together
 					
