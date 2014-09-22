@@ -95,13 +95,13 @@ public class ServiceNSD {
 			// -----------------------------------------------------------------------------------
 			@Override
 			public void onServiceResolved(NsdServiceInfo _serviceInfo) {
-				Log.d("DMC-DEBUG", "Resolved succeeded: " + _serviceInfo);
+				Log.d("DMC", "Resolved succeeded: " + _serviceInfo);
 
 				mServiceInfo = _serviceInfo;
 				mPort = mServiceInfo.getPort();
 				mHost = mServiceInfo.getHost();
 				
-				Log.d("DMC-DEBUG", "Detected hub with addr:" + mHost + " and port: " + mPort);
+				Log.d("DMC", "Detected hub with addr:" + mHost + " and port: " + mPort);
 			}
 		};
 	}
@@ -117,13 +117,13 @@ public class ServiceNSD {
 			// -----------------------------------------------------------------------------------
 			@Override
 			public void onDiscoveryStarted(String _regType) {
-				Log.d("DMC-DEBUG", "Started NSD");
+				Log.d("DMC", "Started NSD");
 			}
 
 			// -----------------------------------------------------------------------------------
 			@Override
 			public void onDiscoveryStopped(String _serviceType) {
-				Log.d("DMC-DEBUG", "Stopped NSD");
+				Log.d("DMC", "Stopped NSD");
 
 			}
 
@@ -131,7 +131,7 @@ public class ServiceNSD {
 			@Override
 			public void onServiceFound(NsdServiceInfo _service) {
 				// Found Service
-				Log.d("DMC-DEBUG", "Service discovery success with name: " + _service.getServiceName() + " and type: " + _service.getServiceType());
+				Log.d("DMC", "Service discovery success with name: " + _service.getServiceName() + " and type: " + _service.getServiceType());
 				if (_service.getServiceName().contains(DOMOCRACY_HUB_SERVICE)) {
 					// Found Domocracy's service.
 					mNsdManager.resolveService(_service, mResolveListener);

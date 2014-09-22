@@ -43,7 +43,7 @@ public class Message {
 		
 		// Check if length is proper.
 		if ((byte) _rawMessage.length != _rawMessage[0]) {
-			Log.d("DMC-DEBUG", "Received corrupted message. Lenght is not correct! Raw is: " + new String(_rawMessage));
+			Log.d("DMC", "Received corrupted message. Lenght is not correct! Raw is: " + new String(_rawMessage));
 			return false;
 		}
 		return true;

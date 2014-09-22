@@ -8,10 +8,8 @@
 
 package es.domocracy.domocracyapp.comm;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import android.content.Context;
 

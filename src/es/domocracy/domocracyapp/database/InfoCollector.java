@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import es.domocracy.domocracyapp.comm.HubConnection;
 import es.domocracy.domocracyapp.devices.Device;
-import es.domocracy.domocracyapp.devices.DeviceType;
 import es.domocracy.domocracyapp.rooms.Room;
 
 public class InfoCollector {

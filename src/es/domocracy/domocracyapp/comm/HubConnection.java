@@ -40,7 +40,7 @@ public class HubConnection {
 		if (mHubSocket != null && mHubSocket.isConnected()) {
 			try {
 				mOutStream.write(_msg.rawMessage());
-				Log.d("DMC-DEBUG", "Sended msg: " + new String(_msg.rawMessage()));
+				Log.d("DMC", "Sended msg: " + new String(_msg.rawMessage()));
 				return true;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -63,7 +63,7 @@ public class HubConnection {
 			}
 			
 			if(nBytes > 0){
-				Log.d("DMC-DEBUG", "Received a message of type: " + buffer[1]);
+				Log.d("DMC", "Received a message of type: " + buffer[1]);
 				return Message.decode(Arrays.copyOf(buffer, nBytes));	
 			}
 		}

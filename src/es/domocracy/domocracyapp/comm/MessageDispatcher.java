@@ -2,6 +2,8 @@ package es.domocracy.domocracyapp.comm;
 
 import java.util.HashMap;
 
+import android.util.Log;
+
 public class MessageDispatcher {
 	// -----------------------------------------------------------------------------------------------------------------
 
@@ -49,6 +51,8 @@ public class MessageDispatcher {
 		if (mEvents.containsKey(_message.type())) {
 			// If there is, call listeners.
 			mEvents.get(_message.type()).callListeners(_message);
+		} else{
+			Log.e("DMC", "Event type not registered");
 		}
 	}
 

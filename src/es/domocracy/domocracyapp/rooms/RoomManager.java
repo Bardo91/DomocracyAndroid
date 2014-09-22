@@ -161,7 +161,7 @@ public class RoomManager extends BaseAdapter {
 			@Override
 			public void onMessage(final Message _message) {
 				// 666 TODO: do whatelse with messages.
-				Log.d("DMC-DEBUG", "UserRooms received a message of type: " + _message.type());
+				Log.d("DMC", "UserRooms received a message of type: " + _message.type());
 				
 				if(_message.type() == Message.Type.InfoDevice.value){
 					mRoomList.get(0).addDevice(Device.getDevice(	_message.payload()[1], 
@@ -169,7 +169,7 @@ public class RoomManager extends BaseAdapter {
 																	new DeviceType(), 
 																	null, 
 																	mCurrentConnection));
-					Log.d("DMC-DEBUG", "Added new device to room");
+					Log.d("DMC", "Added new device to room");
 					mActivity.runOnUiThread(new Runnable() {
 						
 						@Override
@@ -178,7 +178,7 @@ public class RoomManager extends BaseAdapter {
 							Toast.makeText(	mActivity, 
 											"Added new Device" + new String(Arrays.copyOfRange(_message.payload(), 1, _message.payload().length)), 
 											Toast.LENGTH_SHORT).show();
-							Log.d("DMC-DEBUG", "Update UI");
+							Log.d("DMC", "Update UI");
 						}
 					});
 				}	
