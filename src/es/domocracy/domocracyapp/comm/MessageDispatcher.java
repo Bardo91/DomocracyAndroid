@@ -62,7 +62,7 @@ public class MessageDispatcher {
 		mEvents = new HashMap<Byte, Event>();
 		
 		// Start a thread for hearing
-		Thread hearingThread = new Thread() {
+		Thread listeningThread = new Thread() {
 			@Override
 			public void run() {
 				for(;;){
@@ -80,7 +80,7 @@ public class MessageDispatcher {
 
 		};
 
-		hearingThread.start();
+		listeningThread.start();
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
