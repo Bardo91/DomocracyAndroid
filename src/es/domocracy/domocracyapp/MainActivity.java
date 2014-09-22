@@ -17,7 +17,6 @@ import es.domocracy.domocracyapp.comm.HubConnection;
 import es.domocracy.domocracyapp.comm.Message;
 import es.domocracy.domocracyapp.comm.MessageDispatcher;
 import es.domocracy.domocracyapp.database.InfoCollector;
-import es.domocracy.domocracyapp.devices.DeviceList;
 import es.domocracy.domocracyapp.rooms.RoomManager;
 
 public class MainActivity extends ActionBarActivity {
@@ -88,7 +87,7 @@ public class MainActivity extends ActionBarActivity {
 		mHubConnection = mConnectionLoader.currentConnection();
 
 		// Init MessageDispatcher
-		MessageDispatcher.setConnection(mHubConnection);
+		MessageDispatcher.init(mHubConnection);
 
 	}
 

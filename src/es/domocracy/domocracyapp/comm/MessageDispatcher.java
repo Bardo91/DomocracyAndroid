@@ -8,19 +8,24 @@ public class MessageDispatcher {
 	static private MessageDispatcher mDispatcherInstance = null;;
 	static private HashMap<Byte, Event> mEvents;
 
-	static private HubConnection mCurrentConnection = null;
-	
-	//-----------------------------------------------------------------------------------------------------------------
-	static public void setConnection(HubConnection _connection) {
+	static private HubConnection mHubConnection = null;
+		
+	// -----------------------------------------------------------------------------------------------------------------
+	// Public interface
+	static public void init(HubConnection _connection) {
 		if(mDispatcherInstance == null){
 			mDispatcherInstance = new MessageDispatcher();			
 		}
 		
-		mCurrentConnection = _connection;			// 666 Check if there's another possibility
+		mHubConnection = _connection;			// 666 Check if there's another possibility
 	}
 
-	// -----------------------------------------------------------------------------------------------------------------
-	// Public interface
+	//-----------------------------------------------------------------------------------------------------------------
+	static public MessageDispatcher get(){
+		return mDispatcherInstance;
+	}
+	
+	//-----------------------------------------------------------------------------------------------------------------
 	static public void registerListener(MessageListener _listener) {
 		if(mDispatcherInstance == null){
 			mDispatcherInstance = new MessageDispatcher();
@@ -61,10 +66,10 @@ public class MessageDispatcher {
 			@Override
 			public void run() {
 				for(;;){
-					if(mCurrentConnection == null || !mCurrentConnection.isConnected())
+					if(mHubConnection == null || !mHubConnection.isConnected())
 						continue;
 					// Get string from input buffer 
-					Message msg = mCurrentConnection.readBuffer();	// TODO: 666 Doesn't check if there is more than 1 message together
+					Message msg = mHubConnection.readBuffer();	// TODO: 666 Doesn't check if there is more than 1 message together
 					
 					// Create Message from raw
 					if(msg != null){
