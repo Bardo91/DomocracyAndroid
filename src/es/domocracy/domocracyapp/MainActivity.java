@@ -25,10 +25,9 @@ public class MainActivity extends ActionBarActivity {
 	// -----------------------------------------------------------------------------------
 	// Main's activity members
 	private ConnectionLoader mConnectionLoader;
-	private HubConnection mCurrentConnection;
+	private HubConnection mHubConnection;
 
 	private UserRooms mRooms;
-	private DeviceList mCurrentDevices;
 
 	// -----------------------------------------------------------------------------------
 	// MainActivity interface
@@ -38,34 +37,9 @@ public class MainActivity extends ActionBarActivity {
 		// Set UI pattern by XML
 		setContentView(R.layout.activity_main);
 
-		// Prepare connections
-		mConnectionLoader = new ConnectionLoader(this);
-
-		mCurrentConnection = mConnectionLoader.currentConnection();
-
-		// Init MessageDispatcher
-		MessageDispatcher.setConnection(mCurrentConnection);
+		initConnection();	// Prepare connections
+		initInterface();	// Load and fill the UI content
 		
-		// Load and fill the UI content
-		mCurrentDevices = new DeviceList(this);
-		mRooms = new UserRooms(this, mCurrentDevices, mCurrentConnection);
-		
-		mRooms.fillRoomList(InfoCollector.getRooms(mCurrentConnection));
-		mRooms.setDevices(0); // 666 TODO Set default room or last room, or so
-	}
-
-	// -----------------------------------------------------------------------------------
-	@Override
-	public void onPause() {
-		super.onPause();
-
-	}
-
-	// -----------------------------------------------------------------------------------
-	@Override
-	public void onResume() {
-		super.onResume();
-
 	}
 
 	// -----------------------------------------------------------------------------------
@@ -97,12 +71,33 @@ public class MainActivity extends ActionBarActivity {
 			return true;
 		}else if (id == R.id.add_device_settings) {
 			// 666 TODO: where to gather functions that are related to the system.
-			mCurrentConnection.sendMsg(new Message(	(byte) 0x02, 
+			mHubConnection.sendMsg(new Message(	(byte) 0x02, 
 													Message.Type.Look4Devices.value, 
 													new byte[0]));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	
+	// -----------------------------------------------------------------------------------
+	// Private Interface
+	void initConnection(){
+		mConnectionLoader = new ConnectionLoader(this);
 
+		mHubConnection = mConnectionLoader.currentConnection();
+
+		// Init MessageDispatcher
+		MessageDispatcher.setConnection(mHubConnection);
+
+	}
+
+	// -----------------------------------------------------------------------------------
+	void initInterface(){
+		mRooms = new UserRooms(this, mHubConnection);
+		
+		mRooms.fillRoomList(InfoCollector.getRooms(mHubConnection));
+		mRooms.setDevices(0); // 666 TODO Set default room or last room, or so
+	}
+	
 }

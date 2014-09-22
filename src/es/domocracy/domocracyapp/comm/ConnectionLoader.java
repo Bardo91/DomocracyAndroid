@@ -55,7 +55,7 @@ public class ConnectionLoader {
 	}
 	
 	// -----------------------------------------------------------------------------------
-	static public HubConnection currentConnection(){
+	public HubConnection currentConnection(){
 		return mCurrentConnection;
 	}
 	

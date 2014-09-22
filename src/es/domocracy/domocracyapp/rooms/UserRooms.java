@@ -52,14 +52,13 @@ public class UserRooms extends BaseAdapter {
 
 	// -----------------------------------------------------------------------------------
 	// RoomList basic interface
-	public UserRooms(Activity _activity, DeviceList _deviceList,
-			HubConnection _hubConnection) {
+	public UserRooms(Activity _activity, HubConnection _hubConnection) {
 		mActivity = _activity;
 		mTypeface = Typeface.createFromAsset(_activity.getAssets(),
 				"multicolore.otf");
 
 		mCurrentConnection = _hubConnection;
-		mDeviceList = _deviceList;
+		mDeviceList = new DeviceList(_activity);
 
 		mRoomList = new ArrayList<Room>();
 		initUI(_activity);
