@@ -27,10 +27,6 @@ public class MessageDispatcher {
 	
 	//-----------------------------------------------------------------------------------------------------------------
 	static public void registerListener(MessageListener _listener) {
-		if(mDispatcherInstance == null){
-			mDispatcherInstance = new MessageDispatcher();
-		}
-		
 		for (byte type : _listener.messageTypes()) {
 			if (!mEvents.containsKey(type)) { // If it's the first time that
 												// this kind of message is
@@ -49,8 +45,7 @@ public class MessageDispatcher {
 	// Private Interface
 	private void callEvent(Message _message) {
 		// Check if there is any listener register to the message's type.
-		if(_message == null)
-			assert(false);	// Uninitialized message
+		assert(_message == null); // Uninitialized message
 		if (mEvents.containsKey(_message.type())) {
 			// If there is, call listeners.
 			mEvents.get(_message.type()).callListeners(_message);
