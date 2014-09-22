@@ -20,7 +20,7 @@ public abstract class DeviceController{
 		
 	}
 	
-	public abstract View constructView(Context _context);
+	public abstract View getView(Context _context);
 	public abstract void updateControllerState(DeviceState _state);				// Function to change the representation of the device state inside de controller
 	
 	// -----------------------------------------------------------------------------------

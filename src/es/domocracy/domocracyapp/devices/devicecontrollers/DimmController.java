@@ -26,7 +26,7 @@ public class DimmController extends DeviceController {
 	
 	//-----------------------------------------------------------------------------------
 	@Override
-	public View constructView(Context _context) {
+	public View getView(Context _context) {
 		LayoutInflater inflater = LayoutInflater.from(_context);
 		
 		mControllerView = inflater.inflate(R.layout.dimm_controller_layout, null);

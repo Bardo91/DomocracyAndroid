@@ -26,7 +26,7 @@ public class SwitchController extends DeviceController {
 
 	// -----------------------------------------------------------------------------------
 	@Override
-	public View constructView(Context _context) {
+	public View getView(Context _context) {
 		LayoutInflater inflater = LayoutInflater.from(_context);
 
 		mControllerView = inflater.inflate(R.layout.switch_controller_layout,
