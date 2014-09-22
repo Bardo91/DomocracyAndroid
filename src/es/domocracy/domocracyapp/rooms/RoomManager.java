@@ -35,7 +35,7 @@ import es.domocracy.domocracyapp.devices.Device;
 import es.domocracy.domocracyapp.devices.DeviceList;
 import es.domocracy.domocracyapp.devices.DeviceType;
 
-public class UserRooms extends BaseAdapter {
+public class RoomManager extends BaseAdapter {
 	// -----------------------------------------------------------------------------------
 	// RoomList members
 	private ListView mRoomListView;
@@ -52,7 +52,7 @@ public class UserRooms extends BaseAdapter {
 
 	// -----------------------------------------------------------------------------------
 	// RoomList basic interface
-	public UserRooms(Activity _activity, HubConnection _hubConnection) {
+	public RoomManager(Activity _activity, HubConnection _hubConnection) {
 		mActivity = _activity;
 		mTypeface = Typeface.createFromAsset(_activity.getAssets(),
 				"multicolore.otf");

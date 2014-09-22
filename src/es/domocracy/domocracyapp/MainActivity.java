@@ -18,7 +18,7 @@ import es.domocracy.domocracyapp.comm.Message;
 import es.domocracy.domocracyapp.comm.MessageDispatcher;
 import es.domocracy.domocracyapp.database.InfoCollector;
 import es.domocracy.domocracyapp.devices.DeviceList;
-import es.domocracy.domocracyapp.rooms.UserRooms;
+import es.domocracy.domocracyapp.rooms.RoomManager;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
 	private ConnectionLoader mConnectionLoader;
 	private HubConnection mHubConnection;
 
-	private UserRooms mRooms;
+	private RoomManager mRooms;
 
 	// -----------------------------------------------------------------------------------
 	// MainActivity interface
@@ -94,7 +94,7 @@ public class MainActivity extends ActionBarActivity {
 
 	// -----------------------------------------------------------------------------------
 	void initInterface(){
-		mRooms = new UserRooms(this, mHubConnection);
+		mRooms = new RoomManager(this, mHubConnection);
 		
 		mRooms.fillRoomList(InfoCollector.getRooms(mHubConnection));
 		mRooms.setDevices(0); // 666 TODO Set default room or last room, or so
