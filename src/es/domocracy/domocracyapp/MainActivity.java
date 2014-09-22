@@ -45,7 +45,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	public void onStop() {
 		super.onStop();
-		mConnectionLoader.onStop();
+		mConnectionLoader.disconnect();
 	}
 
 	// -----------------------------------------------------------------------------------

@@ -60,7 +60,7 @@ public class ConnectionLoader {
 	}
 	
 	// -----------------------------------------------------------------------------------
-	public void onStop(){
+	public void disconnect(){
 		mCurrentConnection.closeConnection();
 		
 	}
