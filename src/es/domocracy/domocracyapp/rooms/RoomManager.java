@@ -38,18 +38,15 @@ public class RoomManager {
 	// RoomList basic interface
 	public RoomManager(Activity _activity, HubConnection _hubConnection) {
 		mActivity = _activity;
-		
 		mCurrentConnection = _hubConnection;
+		
 		mDeviceList = new DeviceList(_activity);
-
 		mRoomList = new ArrayList<Room>();
-
+		
+		loadRooms();
 		initMessageListener();
 	}
 
-	// Cosas que he quitado y hay que hacer de otra forma:
-	//		--> FillRoomList(), ahora se llenara ella sola accediendo al archivo que sea necesario
-	
 	// -----------------------------------------------------------------------------------
 	public void setDevices(int _room) {
 		mDeviceList.setDevices(mRoomList.get(_room).devices());
@@ -61,6 +58,12 @@ public class RoomManager {
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
+	// Private interface
+	private void loadRooms(){
+		
+	}
+	
+	//------------------------------------------------------------------------------------------------------------------
 	private void initMessageListener() {
 		// Defining messages supported by rooms.
 		final byte[] supportedTypes = { Message.Type.NewDevice.value,

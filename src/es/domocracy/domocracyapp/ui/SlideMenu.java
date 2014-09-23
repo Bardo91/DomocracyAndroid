@@ -26,6 +26,8 @@ public class SlideMenu extends BaseAdapter {
 	// Public interface
 	public SlideMenu(Activity _activity){
 		mTypeface = Typeface.createFromAsset(_activity.getAssets(), "multicolore.otf");
+		
+		
 	}
 	
 	
