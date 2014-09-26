@@ -35,6 +35,11 @@ public class SlideMenu extends BaseAdapter {
 		initDrawer(_activity);
 	}
 	
+	// -----------------------------------------------------------------------------------------------------------------
+	public void setRooms(List<Room> _list){
+		mRoomList = _list;
+		notifyDataSetChanged();
+	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Base adapter implementation
