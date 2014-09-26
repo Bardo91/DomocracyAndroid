@@ -3,7 +3,6 @@ package es.domocracy.domocracyapp.database;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 import es.domocracy.domocracyapp.comm.HubConnection;
 import es.domocracy.domocracyapp.devices.Device;
@@ -29,7 +28,7 @@ public class InfoCollector {
 			//									_hubConnection));
 			//}
 			
-			rooms.add(new Room(UUID.randomUUID(), roomNames[i], devices));
+			rooms.add(new Room((byte) 0x69, roomNames[i], devices));
 		}
 		
 		

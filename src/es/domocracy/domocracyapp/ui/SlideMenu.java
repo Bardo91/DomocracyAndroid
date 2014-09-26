@@ -1,5 +1,6 @@
 package es.domocracy.domocracyapp.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -31,6 +32,8 @@ public class SlideMenu extends BaseAdapter {
 	// Public interface
 	public SlideMenu(Activity _activity){
 		mTypeface = Typeface.createFromAsset(_activity.getAssets(), "multicolore.otf");
+		
+		mRoomList = new ArrayList<Room>();
 		
 		initDrawer(_activity);
 	}

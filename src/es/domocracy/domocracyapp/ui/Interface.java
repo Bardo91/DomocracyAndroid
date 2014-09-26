@@ -21,7 +21,6 @@ public class Interface {
 			mMainScreen = new MainScreen(_activity);
 			
 			initActionBar(_activity);
-			
 		}
 		
 		//-----------------------------------------------------------------------------------------------------------------

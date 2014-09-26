@@ -25,7 +25,8 @@ public class RoomManager {
 	// -----------------------------------------------------------------------------------
 	// RoomList members
 	private List<Room> mRoomList;
-
+	private Room mNewDeviceRoom;
+	
 	private HubConnection mCurrentConnection;
 	private MessageListener mMessageListener;
 	
@@ -38,6 +39,7 @@ public class RoomManager {
 		mInterface = _interface;
 		
 		mRoomList = new ArrayList<Room>();
+		mNewDeviceRoom = new Room((byte) 0x00, "New Device", new ArrayList<Device>());
 		
 		loadRooms();
 		initMessageListener();
@@ -79,11 +81,12 @@ public class RoomManager {
 			public void onMessage(final Message _message) {
 				Log.d("DMC", "UserRooms received a message of type: " + _message.type());
 				if (_message.type() == Message.Type.InfoDevice.value) {
-					mRoomList.get(0).addDevice(Device.getDevice(	_message.payload()[1],
-																	new String(Arrays.copyOfRange(_message.payload(), 1, _message.payload().length)),
-																	new DeviceType(), 
-																	null,
-																	mCurrentConnection));
+					mNewDeviceRoom.addDevice(Device.getDevice(	_message.payload()[1],
+																new String(Arrays.copyOfRange(_message.payload(), 1, _message.payload().length)),
+																new DeviceType(), 
+																null,
+																mCurrentConnection));
+					mRoomList.add(0, mNewDeviceRoom);
 				}
 			}
 		};
