@@ -29,10 +29,13 @@ public class HubConnection {
 	private OutputStream mOutStream;
 	private boolean mIsConnected = false;
 
+	
+	private int mBufferLenght = 0;
+	private byte[] mPersistentBuffer = new byte[2048];
 	// -----------------------------------------------------------------------------------
 	// HubConnection public Interface
 	public HubConnection() {
-
+		initReading();
 	}
 
 	// -----------------------------------------------------------------------------------
@@ -48,29 +51,25 @@ public class HubConnection {
 		}
 		return false;
 	}
+
 	// -----------------------------------------------------------------------------------
-	public Message readBuffer(){
-		if(mHubSocket != null && mHubSocket.isConnected()){
-			byte[] buffer = new byte[1024];
+	public Message readBuffer() {
+		if (0 < mBufferLenght) {
+			// Create message
+			Log.d("DMC", "Received a message of type: " + mPersistentBuffer[1]);
+			Message msg = Message.decode(Arrays.copyOf(mPersistentBuffer, mPersistentBuffer[0]));
 			
-			int nBytes = 0;
-			try {
-				if(0 < mInStream.available()){
-					nBytes = mInStream.read(buffer);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			// Empty buffer
+			byte msgSize = mPersistentBuffer[0]; 
+			mPersistentBuffer = Arrays.copyOfRange(mPersistentBuffer, 0, msgSize);
+			mBufferLenght -= msgSize;			
 			
-			if(nBytes > 0){
-				Log.d("DMC", "Received a message of type: " + buffer[1]);
-				return Message.decode(Arrays.copyOf(buffer, nBytes));	
-			}
+			if(msg.isValid())
+				return msg;
 		}
 		return null;
 	}
-	
-	
+
 	// -----------------------------------------------------------------------------------
 	public boolean connectToHub(final Hub _hub) {
 		Thread t = new Thread() {
@@ -78,13 +77,14 @@ public class HubConnection {
 			@Override
 			public void run() {
 				try {
-					if(_hub.port() != -1){
+					if (_hub.port() != -1) {
 						mHubSocket = new Socket();
-						mHubSocket.connect(new InetSocketAddress(_hub.addr(), _hub.port()), TIMEOUT);
-						
+						mHubSocket.connect(new InetSocketAddress(_hub.addr(),
+								_hub.port()), TIMEOUT);
+
 						mInStream = mHubSocket.getInputStream();
 						mOutStream = mHubSocket.getOutputStream();
-		
+
 						mHub = _hub;
 						mIsConnected = true;
 					}
@@ -110,9 +110,10 @@ public class HubConnection {
 	}
 
 	// -----------------------------------------------------------------------------------
-	public boolean isConnected(){
+	public boolean isConnected() {
 		return mIsConnected;
 	}
+
 	// -----------------------------------------------------------------------------------
 	public boolean closeConnection() {
 		if (mHubSocket != null && mHubSocket.isConnected()) {
@@ -136,6 +137,28 @@ public class HubConnection {
 
 	// -----------------------------------------------------------------------------------
 	// HubConnection private interface
+	private void initReading() {
+		Thread readingThread = new Thread() {
+			@Override
+			public void run() {
+				byte[] buffer = new byte[1024];
 
+				int nBytes = 0;
+				try {
+					if (0 < mInStream.available()) {
+						nBytes = mInStream.read(buffer);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				if(nBytes > 0){
+					mBufferLenght += nBytes;
+					System.arraycopy(buffer, 0, mPersistentBuffer, mBufferLenght, nBytes);
+				}
+
+			}
+		};
+		readingThread.start();
+	}
 	// -----------------------------------------------------------------------------------
 }

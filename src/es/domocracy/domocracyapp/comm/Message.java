@@ -69,13 +69,12 @@ public class Message {
 	private byte mSize;
 	private byte[] mPayload;
 	private byte[] mRawMessage;
-
+	private boolean mIsValid = false;
 	// -----------------------------------------------------------------------------------------------------------------
 
 	public byte type() {
 		return mType;
 	}
-
 
 	public byte size() {
 		return mSize;
@@ -90,6 +89,11 @@ public class Message {
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
+	public boolean isValid(){
+		return mIsValid;
+	}
+	
+	// -----------------------------------------------------------------------------------------------------------------
 
 	public Message(byte _size, byte _type, byte[] _payload) {
 		mSize = _size;
@@ -102,6 +106,7 @@ public class Message {
 			mRawMessage[i+2] = mPayload[i];
 		}
 		
+		mIsValid = true;		
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
