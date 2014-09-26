@@ -1,5 +1,7 @@
 package es.domocracy.domocracyapp.ui;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.support.v4.widget.DrawerLayout;
@@ -13,12 +15,15 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import es.domocracy.domocracyapp.R;
+import es.domocracy.domocracyapp.rooms.Room;
 
 public class SlideMenu extends BaseAdapter {
 	// -----------------------------------------------------------------------------------------------------------------
 	// Class members
 	private ListView mRoomListView;
 	private DrawerLayout mRoomDrawer;
+	
+	private List<Room> mRoomList;
 	
 	private Typeface mTypeface;
 	
@@ -27,7 +32,7 @@ public class SlideMenu extends BaseAdapter {
 	public SlideMenu(Activity _activity){
 		mTypeface = Typeface.createFromAsset(_activity.getAssets(), "multicolore.otf");
 		
-		
+		initDrawer(_activity);
 	}
 	
 	
@@ -99,7 +104,7 @@ public class SlideMenu extends BaseAdapter {
 			@Override
 			public void onItemClick(AdapterView<?> _parent, View _view,
 					int _position, long _id) {
-				setDevices(_position - 1);
+				//setDevices(_position - 1);
 				mRoomDrawer.closeDrawer(mRoomListView);
 			}
 		});

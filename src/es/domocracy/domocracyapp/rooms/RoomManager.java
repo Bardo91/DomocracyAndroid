@@ -12,35 +12,31 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import android.app.Activity;
 import android.util.Log;
-import android.widget.Toast;
 import es.domocracy.domocracyapp.comm.HubConnection;
 import es.domocracy.domocracyapp.comm.Message;
 import es.domocracy.domocracyapp.comm.MessageDispatcher;
 import es.domocracy.domocracyapp.comm.MessageListener;
 import es.domocracy.domocracyapp.devices.Device;
-import es.domocracy.domocracyapp.devices.DeviceList;
 import es.domocracy.domocracyapp.devices.DeviceType;
+import es.domocracy.domocracyapp.ui.Interface;
 
 public class RoomManager {
 	// -----------------------------------------------------------------------------------
 	// RoomList members
 	private List<Room> mRoomList;
 
-	private DeviceList mDeviceList;
-
 	private HubConnection mCurrentConnection;
-	private Activity mActivity;
 	private MessageListener mMessageListener;
-
+	
+	private Interface mInterface;
 	// -----------------------------------------------------------------------------------
 	// RoomList basic interface
-	public RoomManager(Activity _activity, HubConnection _hubConnection) {
-		mActivity = _activity;
+	public RoomManager(HubConnection _hubConnection, Interface _interface) {
 		mCurrentConnection = _hubConnection;
 		
-		mDeviceList = new DeviceList(_activity);
+		mInterface = _interface;
+		
 		mRoomList = new ArrayList<Room>();
 		
 		loadRooms();
@@ -49,14 +45,20 @@ public class RoomManager {
 
 	// -----------------------------------------------------------------------------------
 	public void setDevices(int _room) {
-		mDeviceList.setDevices(mRoomList.get(_room).devices());
+		mInterface.updateDeviceList(mRoomList.get(_room).devices());
 	}
 
 	// -----------------------------------------------------------------------------------
 	public void addRoom(Room _room) {
 		mRoomList.add(_room);
+		mInterface.updateRoomList(mRoomList);
 	}
 
+	// -----------------------------------------------------------------------------------------------------------------
+	public List<Room> rooms(){
+		return mRoomList;
+	}
+	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Private interface
 	private void loadRooms(){
@@ -82,29 +84,11 @@ public class RoomManager {
 																	new DeviceType(), 
 																	null,
 																	mCurrentConnection));
-					
-					Log.d("DMC", "Added new device to room");
-					mActivity.runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							mDeviceList.notifyDataSetChanged();
-							Toast.makeText(mActivity, "Added new Device" + new String(Arrays.copyOfRange(_message.payload(), 1, _message.payload().length)), Toast.LENGTH_SHORT).show();
-							Log.d("DMC", "Update UI");
-						}
-					});
 				}
 			}
 		};
 
 		MessageDispatcher.registerListener(mMessageListener);
 	}
-
-	// -----------------------------------------------------------------------------------
-	private void initActionBar(Activity _activity) {		// 666 TODO: hay que moverlo a la clase q contenga el action bar, que no tienen nombre aún 
-		_activity.getActionBar().setDisplayHomeAsUpEnabled(true);
-		_activity.getActionBar().setHomeButtonEnabled(true);
-
-	}
-
 	// -----------------------------------------------------------------------------------
 }

@@ -1,15 +1,16 @@
 package es.domocracy.domocracyapp.ui;
 
+import android.app.Activity;
+
 public class MainScreen {
 	//-----------------------------------------------------------------------------------------------------------------
 	// Class members
-	private SlideMenu mRoomList;
 	private RoomHeader mHeader;
 	private RoomContent mDevices;
 	
 	//-----------------------------------------------------------------------------------------------------------------
 	// Public interface
-	public MainScreen(){
+	public MainScreen(Activity _activity){
 		
 	}
 	
