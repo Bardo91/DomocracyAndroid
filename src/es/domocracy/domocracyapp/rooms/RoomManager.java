@@ -26,21 +26,23 @@ public class RoomManager {
 	// RoomList members
 	private List<Room> mRoomList;
 	private Room mNewDeviceRoom;
-	
+
 	private HubConnection mCurrentConnection;
 	private MessageListener mMessageListener;
-	
+
 	private Interface mInterface;
+
 	// -----------------------------------------------------------------------------------
 	// RoomList basic interface
 	public RoomManager(HubConnection _hubConnection, Interface _interface) {
 		mCurrentConnection = _hubConnection;
-		
+
 		mInterface = _interface;
-		
+
 		mRoomList = new ArrayList<Room>();
-		mNewDeviceRoom = new Room((byte) 0x00, "New Device", new ArrayList<Device>());
-		
+		mNewDeviceRoom = new Room((byte) 0x00, "New Device",
+				new ArrayList<Device>());
+
 		loadRooms();
 		initMessageListener();
 	}
@@ -57,22 +59,21 @@ public class RoomManager {
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
-	public List<Room> rooms(){
+	public List<Room> rooms() {
 		return mRoomList;
 	}
-	
+
 	// -----------------------------------------------------------------------------------------------------------------
 	// Private interface
-	private void loadRooms(){
-		
+	private void loadRooms() {
+
 	}
-	
-	//------------------------------------------------------------------------------------------------------------------
+
+	// ------------------------------------------------------------------------------------------------------------------
 	private void initMessageListener() {
 		// Defining messages supported by rooms.
 		final byte[] supportedTypes = { Message.Type.NewDevice.value,
-										Message.Type.RoomListInfo.value, 
-										Message.Type.InfoDevice.value };
+				Message.Type.RoomListInfo.value, Message.Type.InfoDevice.value };
 
 		// Init message listener
 		mMessageListener = new MessageListener(supportedTypes) {
@@ -81,12 +82,15 @@ public class RoomManager {
 			public void onMessage(final Message _message) {
 				Log.d("DMC", "UserRooms received a message of type: " + _message.type());
 				if (_message.type() == Message.Type.InfoDevice.value) {
+					if (0 == mNewDeviceRoom.devices().size()) {
+						mRoomList.add(0, mNewDeviceRoom);
+					}
+					
 					mNewDeviceRoom.addDevice(Device.getDevice(	_message.payload()[1],
-																new String(Arrays.copyOfRange(_message.payload(), 1, _message.payload().length)),
-																new DeviceType(), 
-																null,
-																mCurrentConnection));
-					mRoomList.add(0, mNewDeviceRoom);
+																new String(Arrays.copyOfRange(_message.payload(),1 ,_message.payload().length)),
+																new DeviceType(), null, mCurrentConnection));
+					
+					mInterface.updateRoomList(mRoomList);
 				}
 			}
 		};

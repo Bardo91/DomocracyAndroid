@@ -17,8 +17,8 @@ public class Interface {
 		//-----------------------------------------------------------------------------------------------------------------
 		// Public interface
 		public Interface(Activity _activity){
-			mRoomList = new SlideMenu(_activity);
 			mMainScreen = new MainScreen(_activity);
+			mRoomList = new SlideMenu(_activity, mMainScreen);
 			
 			initActionBar(_activity);
 		}

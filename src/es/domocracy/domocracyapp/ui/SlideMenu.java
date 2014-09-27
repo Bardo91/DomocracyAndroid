@@ -21,16 +21,22 @@ import es.domocracy.domocracyapp.rooms.Room;
 public class SlideMenu extends BaseAdapter {
 	// -----------------------------------------------------------------------------------------------------------------
 	// Class members
+	private Activity mActivity;
 	private ListView mRoomListView;
 	private DrawerLayout mRoomDrawer;
 	
 	private List<Room> mRoomList;
 	
+	private MainScreen mMainScreen;
+	
 	private Typeface mTypeface;
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	// Public interface
-	public SlideMenu(Activity _activity){
+	public SlideMenu(Activity _activity, MainScreen _mainScreen){
+		mActivity = _activity;
+		mMainScreen = _mainScreen;
+		
 		mTypeface = Typeface.createFromAsset(_activity.getAssets(), "multicolore.otf");
 		
 		mRoomList = new ArrayList<Room>();
@@ -41,7 +47,7 @@ public class SlideMenu extends BaseAdapter {
 	// -----------------------------------------------------------------------------------------------------------------
 	public void setRooms(List<Room> _list){
 		mRoomList = _list;
-		notifyDataSetChanged();
+		requestUiUpdate();
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
@@ -112,7 +118,7 @@ public class SlideMenu extends BaseAdapter {
 			@Override
 			public void onItemClick(AdapterView<?> _parent, View _view,
 					int _position, long _id) {
-				//setDevices(_position - 1);
+				mMainScreen.setDevices(mRoomList.get(_position - 1).devices());
 				mRoomDrawer.closeDrawer(mRoomListView);
 			}
 		});
@@ -144,6 +150,14 @@ public class SlideMenu extends BaseAdapter {
 
 			}
 		});
-
+	}
+	// -----------------------------------------------------------------------------------
+	private void requestUiUpdate(){
+		mActivity.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				notifyDataSetChanged();
+			}
+		});
 	}
 }
