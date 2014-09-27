@@ -29,13 +29,13 @@ public class HubConnection {
 	private OutputStream mOutStream;
 	private boolean mIsConnected = false;
 
-	
 	private int mBufferLenght = 0;
 	private byte[] mPersistentBuffer = new byte[2048];
+
 	// -----------------------------------------------------------------------------------
 	// HubConnection public Interface
 	public HubConnection() {
-		initReading();
+
 	}
 
 	// -----------------------------------------------------------------------------------
@@ -56,15 +56,17 @@ public class HubConnection {
 	public Message readBuffer() {
 		if (0 < mBufferLenght) {
 			// Create message
+			assert(0 != mPersistentBuffer[1]);
 			Log.d("DMC", "Received a message of type: " + mPersistentBuffer[1]);
-			Message msg = Message.decode(Arrays.copyOf(mPersistentBuffer, mPersistentBuffer[0]));
-			
+			byte[] rawMsg = Arrays.copyOf(mPersistentBuffer,mPersistentBuffer[0]);
+			Message msg = Message.decode(rawMsg);
+
 			// Empty buffer
-			byte msgSize = mPersistentBuffer[0]; 
-			mPersistentBuffer = Arrays.copyOfRange(mPersistentBuffer, 0, msgSize);
-			mBufferLenght -= msgSize;			
-			
-			if(msg.isValid())
+			byte msgSize = mPersistentBuffer[0];
+			System.arraycopy(mPersistentBuffer, msgSize, mPersistentBuffer, 0, mBufferLenght);
+			mBufferLenght -= msgSize;
+
+			if (msg.isValid())
 				return msg;
 		}
 		return null;
@@ -87,6 +89,8 @@ public class HubConnection {
 
 						mHub = _hub;
 						mIsConnected = true;
+						
+						initReading();
 					}
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
@@ -141,21 +145,22 @@ public class HubConnection {
 		Thread readingThread = new Thread() {
 			@Override
 			public void run() {
-				byte[] buffer = new byte[1024];
+				for (;;) {
+					byte[] buffer = new byte[1024];
 
-				int nBytes = 0;
-				try {
-					if (0 < mInStream.available()) {
-						nBytes = mInStream.read(buffer);
+					int nBytes = 0;
+					try {
+						if (0 < mInStream.available()) {
+							nBytes = mInStream.read(buffer);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
-				} catch (IOException e) {
-					e.printStackTrace();
+					if (nBytes > 0) {
+						System.arraycopy(buffer, 0, mPersistentBuffer, mBufferLenght, nBytes);
+						mBufferLenght += nBytes;
+					}
 				}
-				if(nBytes > 0){
-					mBufferLenght += nBytes;
-					System.arraycopy(buffer, 0, mPersistentBuffer, mBufferLenght, nBytes);
-				}
-
 			}
 		};
 		readingThread.start();
