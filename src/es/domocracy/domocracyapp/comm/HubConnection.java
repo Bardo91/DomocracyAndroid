@@ -22,6 +22,7 @@ public class HubConnection {
 	// -----------------------------------------------------------------------------------
 	// HubConnection members
 	private final int TIMEOUT = 2000; // 1000 ms.
+	private final int SLEEP_TIME = 200;
 
 	private Hub mHub;
 	private Socket mHubSocket;
@@ -146,6 +147,9 @@ public class HubConnection {
 			@Override
 			public void run() {
 				for (;;) {
+					try { sleep(SLEEP_TIME); } 
+					catch (InterruptedException sleep_exception) {}
+					
 					byte[] buffer = new byte[1024];
 
 					int nBytes = 0;
