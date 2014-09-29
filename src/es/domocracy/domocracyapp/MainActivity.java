@@ -64,18 +64,22 @@ public class MainActivity extends ActionBarActivity {
 
 	// -----------------------------------------------------------------------------------
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
+	public boolean onOptionsItemSelected(MenuItem _item) {
+		int id = _item.getItemId();
 		if (id == R.id.action_settings) {
 			return true;
 		}else if (id == R.id.add_device_settings) {
 			// 666 TODO: where to gather functions that are related to the system.
 			mHubConnection.sendMsg(new Message(	(byte) 0x02, 
-													Message.Type.Look4Devices.value, 
-													new byte[0]));
+												Message.Type.Look4Devices.value, 
+												new byte[0]));
+			return true;
+		} else if(mInterface.slideMenu().isClickedSlideMenu(_item)){
 			return true;
 		}
-		return super.onOptionsItemSelected(item);
+		
+		
+		return super.onOptionsItemSelected(_item);
 	}
 	
 	
