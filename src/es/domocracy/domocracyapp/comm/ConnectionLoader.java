@@ -27,7 +27,7 @@ public class ConnectionLoader {
 		mHubList = new ArrayList<Hub>();
 		mServiceDNS = new ServiceNSD(_context);		
 		
-		mCurrentConnection = new HubConnection();
+		mCurrentConnection = new HubConnectionWifi();
 		
 	}
 	

@@ -14,12 +14,29 @@ import java.util.UUID;
 
 public class Hub {
 	// -----------------------------------------------------------------------------------
+	// Hub factory
+	enum eConnectionTypes {
+		eWifi, eBluetooth
+	};
+	
+	
+
+	// -----------------------------------------------------------------------------------
 	// Hub information
 	private String mName;
-	private Date mLastConnection;
 	private UUID mUuid;
+	private eConnectionTypes mConnType;
+
+	// Connection info
+	// WIFI
 	private InetAddress mAddr;
 	private int mPort;
+
+	// Bluetooth
+	private String mDevName;
+
+	// Auxiliary info
+	private Date mLastConnection;
 
 	// -----------------------------------------------------------------------------------
 	// Hub basic interface.
@@ -35,16 +52,26 @@ public class Hub {
 	}
 
 	// -----------------------------------------------------------------------------------
+	public eConnectionTypes connType() {
+		return mConnType;
+	}
+
+	// -----------------------------------------------------------------------------------
 	public InetAddress addr() {
 		return mAddr;
 
 	}
 
 	// -----------------------------------------------------------------------------------
-	public int port(){
-		return mPort;
+	public String devName(){
+		return mDevName;
 	}
 	
+	// -----------------------------------------------------------------------------------
+	public int port() {
+		return mPort;
+	}
+
 	// -----------------------------------------------------------------------------------
 	public Date lastConnection() {
 		return mLastConnection;
@@ -52,12 +79,27 @@ public class Hub {
 	}
 
 	// -----------------------------------------------------------------------------------
+	// Wifi hub constructor
 	public Hub(String _name, UUID _uuid, InetAddress _addr, int _port) {
 		mName = _name;
 		mUuid = _uuid;
+		
+		mConnType = eConnectionTypes.eWifi;
+		
 		mAddr = _addr;
 		mPort = _port;
 
+	}
+	
+	// -----------------------------------------------------------------------------------
+	// Bluetooth hub constructor
+	public Hub(String _name, UUID _uuid, String _devName) {
+		mName = _name;
+		mUuid = _uuid;
+		
+		mConnType = eConnectionTypes.eBluetooth;
+		
+		mDevName = _devName;
 	}
 
 	// -----------------------------------------------------------------------------------
