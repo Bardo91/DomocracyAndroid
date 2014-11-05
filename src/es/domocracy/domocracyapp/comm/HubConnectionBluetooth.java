@@ -5,12 +5,32 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.util.Log;
 
 public class HubConnectionBluetooth extends HubConnection {
 	// -----------------------------------------------------------------------------------
+	// Static bluetooth adapter initialization
+	static private BluetoothAdapter mAdapter;
+	
+	static private void initAdapter(){
+		// Get default bluetooth device.
+		mAdapter = BluetoothAdapter.getDefaultAdapter();
+		assert(mAdapter != null);
+		
+		// If bluetooth is not enabled, tell the system to show start bluetooth menu
+		if(!mAdapter.isEnabled()){
+			mAdapter.enable();
+		}
+		
+	}
+	
+	// -----------------------------------------------------------------------------------
 	// HubConnection
 	protected final int TIMEOUT = 2000;
+	
+	
 	public boolean connectToHub(final Hub _hub) {
 		assert(_hub.connType() == Hub.eConnectionTypes.eBluetooth);
 		
