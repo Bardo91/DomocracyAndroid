@@ -11,29 +11,33 @@ package es.domocracy.domocracyapp.comm;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.Socket;
 import java.util.Arrays;
 
+import android.content.Context;
 import android.util.Log;
 
 public abstract class HubConnection {
 	// -----------------------------------------------------------------------------------
 	// HubConnection members
 	protected Hub mHub;
-	protected Socket mHubSocket;
 	protected InputStream mInStream;
 	protected OutputStream mOutStream;
-	protected boolean mIsConnected = false;
 
 	private int mBufferLenght = 0;
 	private byte[] mPersistentBuffer = new byte[2048];
 
+	
+	// -----------------------------------------------------------------------------------
+	//	Abstract interface
+	abstract public boolean connectToHub(final Hub _hub);
+	abstract public boolean closeConnection(Context _Context);
+	abstract public boolean isConnected();
+	
 	// -----------------------------------------------------------------------------------
 	// HubConnection public Interface
-
 	// -----------------------------------------------------------------------------------
 	public boolean sendMsg(Message _msg) {
-		if (mHubSocket != null && mHubSocket.isConnected()) {
+		if (isConnected()) {
 			try {
 				mOutStream.write(_msg.rawMessage());
 				Log.d("DMC", "Sended msg: " + new String(_msg.rawMessage()));
@@ -63,30 +67,6 @@ public abstract class HubConnection {
 				return msg;
 		}
 		return null;
-	}
-
-	// -----------------------------------------------------------------------------------
-	abstract public boolean connectToHub(final Hub _hub);
-
-	// -----------------------------------------------------------------------------------
-	public boolean isConnected() {
-		return mIsConnected;
-	}
-
-	// -----------------------------------------------------------------------------------
-	public boolean closeConnection() {
-		if (mHubSocket != null && mHubSocket.isConnected()) {
-			try {
-				for (;;) {
-					mHubSocket.close();
-					if (mHubSocket.isClosed())
-						break;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return false;
 	}
 
 	// -----------------------------------------------------------------------------------

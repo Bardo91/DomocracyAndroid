@@ -30,7 +30,7 @@ public class ConnectionLoader {
 	}
 	
 	// -----------------------------------------------------------------------------------
-	public HubConnection connect(){
+	public HubConnection connect(Context _context){
 		// Call Service DNS to look for a new hub and addit to the top of the list
 		//mHubList.add(0, mServiceDNS.getConnectionInfo());
 		
@@ -44,7 +44,7 @@ public class ConnectionLoader {
 		//mHubList.add(new Hub("Rinoceronte", UUID.randomUUID(), addr , 5028));
 		//------------------------------- 666 to test with pc
 		
-		// Connect to the newest hub
+		// Connect to the newest Bluetooth hub
 		mHubList.add(new Hub("Casa", UUID.randomUUID(), "HC-06"));
 		mCurrentConnection = new HubConnectionBluetooth();
 		mCurrentConnection.connectToHub(mHubList.get(0));
@@ -57,10 +57,9 @@ public class ConnectionLoader {
 		return mCurrentConnection;
 	}
 	
-	// -----------------------------------------------------------------------------------
-	public void disconnect(){
-		mCurrentConnection.closeConnection();
-		
+	// -----------------------------------------------------------------------------------	
+	public void disconnect(Context _context){
+		mCurrentConnection.closeConnection(_context);
 	}
 	
 	// -----------------------------------------------------------------------------------

@@ -45,16 +45,21 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	public void onStop() {
 		super.onStop();
-		mConnectionLoader.disconnect();
 	}
 
 	// -----------------------------------------------------------------------------------
 	@Override
 	public void onStart() {
 		super.onStart();
-		mConnectionLoader.connect();
+		mConnectionLoader.connect(this);
 	}
 
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		mConnectionLoader.disconnect(this);
+	}
+	
 	// -----------------------------------------------------------------------------------
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
