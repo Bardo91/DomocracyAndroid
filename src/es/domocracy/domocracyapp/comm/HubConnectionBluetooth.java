@@ -6,7 +6,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import android.bluetooth.BluetoothAdapter;
-import android.content.Intent;
 import android.util.Log;
 
 public class HubConnectionBluetooth extends HubConnection {
