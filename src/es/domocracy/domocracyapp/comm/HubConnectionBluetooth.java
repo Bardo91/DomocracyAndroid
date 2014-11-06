@@ -24,8 +24,7 @@ public class HubConnectionBluetooth extends HubConnection {
 			assert (mBtAdapter != null);
 		}
 
-		// If bluetooth is not enabled, tell the system to show start bluetooth
-		// menu
+		// If bluetooth is not enabled, 
 		if (!mBtAdapter.isEnabled()) {
 			mBtAdapter.enable();
 		}
@@ -52,19 +51,11 @@ public class HubConnectionBluetooth extends HubConnection {
 	public void registerBtReceiver(Context _context) {
 		// Register the BroadcastReceiver
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-		_context.registerReceiver(mBtReceiver, filter); // Don't forget to
-														// unregister during
-														// onDestroy
-
+		_context.registerReceiver(mBtReceiver, filter); 
 	}
 
 	public void unregisterBtReceiver(Context _context) {
 		_context.unregisterReceiver(mBtReceiver);
-
-	}
-
-	static void startDiscovery() {
-		mBtAdapter.startDiscovery();
 	}
 
 	// -----------------------------------------------------------------------------------
@@ -74,17 +65,24 @@ public class HubConnectionBluetooth extends HubConnection {
 	private Thread connectionThread;
 
 	// -----------------------------------------------------------------------------------
-	public boolean connectToHub(final Hub _hub) {
+	public boolean connectToHub(final Hub _hub, Context _context) {
 		initBluetooth();
-
+		registerBtReceiver(_context);
+		mBtAdapter.startDiscovery();
+		
 		return isConnected();
 	}
 
 	// -----------------------------------------------------------------------------------
 	public boolean closeConnection(Context _context) {
 		unregisterBtReceiver(_context);
+		
 		if (isConnected()) {
-
+			try {
+				mHubSocket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return (!isConnected());

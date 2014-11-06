@@ -29,8 +29,8 @@ public abstract class HubConnection {
 	
 	// -----------------------------------------------------------------------------------
 	//	Abstract interface
-	abstract public boolean connectToHub(final Hub _hub);
-	abstract public boolean closeConnection(Context _Context);
+	abstract public boolean connectToHub(final Hub _hub, Context _context);
+	abstract public boolean closeConnection(Context _context);
 	abstract public boolean isConnected();
 	
 	// -----------------------------------------------------------------------------------

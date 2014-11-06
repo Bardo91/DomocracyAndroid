@@ -37,7 +37,7 @@ public class HubConnectionWifi extends HubConnection {
 	
 	// -----------------------------------------------------------------------------------
 	protected final int TIMEOUT = 2000;
-	public boolean connectToHub(final Hub _hub) {
+	public boolean connectToHub(final Hub _hub, Context _context) {
 		assert(_hub.connType() == Hub.eConnectionTypes.eWifi);
 		
 		Thread t = new Thread() {

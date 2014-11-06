@@ -47,7 +47,7 @@ public class ConnectionLoader {
 		// Connect to the newest Bluetooth hub
 		mHubList.add(new Hub("Casa", UUID.randomUUID(), "HC-06"));
 		mCurrentConnection = new HubConnectionBluetooth();
-		mCurrentConnection.connectToHub(mHubList.get(0));
+		mCurrentConnection.connectToHub(mHubList.get(0), _context);
 		
 		return mCurrentConnection;
 	}
