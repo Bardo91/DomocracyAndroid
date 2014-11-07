@@ -45,6 +45,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	public void onStop() {
 		super.onStop();
+		mHubConnection.closeConnection(this);
 	}
 
 	// -----------------------------------------------------------------------------------
@@ -57,7 +58,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		mConnectionLoader.disconnect(this);
+		mConnectionLoader.unloadDrivers(this);
 	}
 	
 	// -----------------------------------------------------------------------------------
@@ -88,7 +89,8 @@ public class MainActivity extends ActionBarActivity {
 	// Private Interface
 	void initConnection(){
 		mConnectionLoader = new ConnectionLoader(this);
-
+		mConnectionLoader.initDrivers(this);
+		
 		mHubConnection = mConnectionLoader.currentConnection();
 
 		// Init MessageDispatcher

@@ -17,7 +17,7 @@ public class HubConnectionBluetooth extends HubConnection {
 	// Static bluetooth adapter initialization
 	static private BluetoothAdapter mBtAdapter;
 
-	static private void initBluetooth() {
+	static public void initBluetooth(Context _context) {
 		// Get default bluetooth device.
 		if (mBtAdapter == null) {
 			mBtAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -28,9 +28,15 @@ public class HubConnectionBluetooth extends HubConnection {
 		if (!mBtAdapter.isEnabled()) {
 			mBtAdapter.enable();
 		}
-
 	}
-
+	
+	
+	static public void unloadBluetooth(Context _context){
+		if(mBtAdapter.isEnabled()){
+			mBtAdapter.disable();
+		}
+	}
+	
 	// Bluetooth Broadcast receiver.
 	private final BroadcastReceiver mBtReceiver = new BroadcastReceiver() {
 		public void onReceive(Context context, Intent intent) {
@@ -48,13 +54,13 @@ public class HubConnectionBluetooth extends HubConnection {
 		}
 	};
 
-	public void registerBtReceiver(Context _context) {
+	private void registerBtReceiver(Context _context) {
 		// Register the BroadcastReceiver
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 		_context.registerReceiver(mBtReceiver, filter); 
 	}
 
-	public void unregisterBtReceiver(Context _context) {
+	private void unregisterBtReceiver(Context _context) {
 		_context.unregisterReceiver(mBtReceiver);
 	}
 
@@ -66,7 +72,6 @@ public class HubConnectionBluetooth extends HubConnection {
 
 	// -----------------------------------------------------------------------------------
 	public boolean connectToHub(final Hub _hub, Context _context) {
-		initBluetooth();
 		registerBtReceiver(_context);
 		mBtAdapter.startDiscovery();
 		
@@ -76,7 +81,6 @@ public class HubConnectionBluetooth extends HubConnection {
 	// -----------------------------------------------------------------------------------
 	public boolean closeConnection(Context _context) {
 		unregisterBtReceiver(_context);
-		
 		if (isConnected()) {
 			try {
 				mHubSocket.close();

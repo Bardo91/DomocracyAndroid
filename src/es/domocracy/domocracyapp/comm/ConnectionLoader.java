@@ -25,8 +25,7 @@ public class ConnectionLoader {
 	// -----------------------------------------------------------------------------------
 	// ConnectionLoader public interface
 	public ConnectionLoader(Context _context) {
-		mHubList = new ArrayList<Hub>();
-		//mServiceDNS = new ServiceNSD(_context);		
+		mHubList = new ArrayList<Hub>();	
 	}
 	
 	// -----------------------------------------------------------------------------------
@@ -63,5 +62,14 @@ public class ConnectionLoader {
 	}
 	
 	// -----------------------------------------------------------------------------------
+	public void initDrivers(Context _context){
+		//mServiceDNS = new ServiceNSD(_context);
+		HubConnectionBluetooth.initBluetooth(_context);
+	}
+	
+	// -----------------------------------------------------------------------------------
+	public void unloadDrivers(Context _context){
+		HubConnectionBluetooth.unloadBluetooth(_context);
+	}
 	
 }
