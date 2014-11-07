@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import es.domocracy.domocracyapp.comm.HubConnection;
 import es.domocracy.domocracyapp.devices.Device;
+import es.domocracy.domocracyapp.devices.DeviceState;
+import es.domocracy.domocracyapp.devices.DeviceType;
 import es.domocracy.domocracyapp.rooms.Room;
 
 public class InfoCollector {
@@ -28,7 +30,7 @@ public class InfoCollector {
 			//									null, 
 			//									_hubConnection));
 			//}
-			
+			devices.add(Device.getDevice((byte) 0x15, "Lampara", new DeviceType(), new DeviceState(), _hubConnection));
 			rooms.add(new Room(UUID.randomUUID(), roomNames[i], devices));
 		}
 		
