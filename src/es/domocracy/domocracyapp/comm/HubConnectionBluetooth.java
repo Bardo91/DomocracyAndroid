@@ -15,6 +15,7 @@ import android.util.Log;
 public class HubConnectionBluetooth extends HubConnection {
 	// -----------------------------------------------------------------------------------
 	// Static bluetooth adapter initialization
+	final private String HubName = "HC-06";
 	static private BluetoothAdapter mBtAdapter;
 
 	static public void initBluetooth(Context _context) {
@@ -49,9 +50,9 @@ public class HubConnectionBluetooth extends HubConnection {
 				Log.d("DMC_BT", "Founded device");
 				BluetoothDevice device = intent
 						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-				if (device.getName().equals("HC-06")) { // 666 TODO: connect to
+				if (device.getName().equals(HubName)) { // 666 TODO: connect to
 														// different bts
-					Log.d("DMC_BT", "Found HC-06");
+					Log.d("DMC_BT", "Found " + HubName);
 					mBtAdapter.cancelDiscovery();
 					connect2Device(device);
 				}
@@ -116,14 +117,14 @@ public class HubConnectionBluetooth extends HubConnection {
 		}
 		mHubSocket = tmp;
 
-		Log.d("DMC_BT", "Waiting connection with HC-06");
+		Log.d("DMC_BT", "Waiting connection with hub");
 		connectionThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					mHubSocket.connect();
 				} catch (IOException ConnectEx) {
-					Log.d("DMC", "Error connecting to HC-06");
+					Log.d("DMC_BT", "Error connecting to hub");
 					try {
 						mHubSocket.close();
 					} catch (IOException closeEx) {
@@ -133,7 +134,7 @@ public class HubConnectionBluetooth extends HubConnection {
 				try {
 					mInStream = mHubSocket.getInputStream();
 					mOutStream = mHubSocket.getOutputStream();
-
+					Log.d("DMC_BT", "Connected to hub");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
