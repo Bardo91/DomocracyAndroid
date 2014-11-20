@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import es.domocracy.domocracyapp.comm.ConnectionLoader;
+import es.domocracy.domocracyapp.comm.ConnectionManager;
 import es.domocracy.domocracyapp.comm.HubConnection;
 import es.domocracy.domocracyapp.comm.Message;
 import es.domocracy.domocracyapp.comm.MessageDispatcher;
@@ -23,7 +23,7 @@ public class MainActivity extends ActionBarActivity {
 
 	// -----------------------------------------------------------------------------------
 	// Main's activity members
-	private ConnectionLoader mConnectionLoader;
+	private ConnectionManager mConnectionManager;
 	private HubConnection mHubConnection;
 
 	private RoomManager mRooms;
@@ -52,13 +52,13 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		mConnectionLoader.connect(this);
+		mConnectionManager.connect(this);
 	}
 
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		mConnectionLoader.unloadDrivers(this);
+		mConnectionManager.unloadDrivers(this);
 	}
 	
 	// -----------------------------------------------------------------------------------
@@ -87,11 +87,10 @@ public class MainActivity extends ActionBarActivity {
 	
 	// -----------------------------------------------------------------------------------
 	// Private Interface
-	void initConnection(){
-		mConnectionLoader = new ConnectionLoader(this);
-		mConnectionLoader.initDrivers(this);
+	private void initConnection(){
+		mConnectionManager = new ConnectionManager(this);
 		
-		mHubConnection = mConnectionLoader.currentConnection();
+		mHubConnection = mConnectionManager.currentConnection();
 
 		// Init MessageDispatcher
 		MessageDispatcher.init(mHubConnection);

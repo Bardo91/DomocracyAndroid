@@ -14,7 +14,7 @@ import java.util.UUID;
 
 import android.content.Context;
 
-public class ConnectionLoader {
+public class ConnectionManager {
 
 	// -----------------------------------------------------------------------------------
 	// ConnectionLoader members
@@ -24,13 +24,16 @@ public class ConnectionLoader {
 	
 	// -----------------------------------------------------------------------------------
 	// ConnectionLoader public interface
-	public ConnectionLoader(Context _context) {
+	public ConnectionManager(Context _context) {
 		mHubList = new ArrayList<Hub>();	
-		mCurrentConnection = new HubConnectionBluetooth();
+		initDrivers(_context);
 	}
 	
 	// -----------------------------------------------------------------------------------
 	public HubConnection connect(Context _context){
+		
+		if(mCurrentConnection == null)
+			return null;
 		// Call Service DNS to look for a new hub and addit to the top of the list
 		//mHubList.add(0, mServiceDNS.getConnectionInfo());
 		
@@ -64,8 +67,8 @@ public class ConnectionLoader {
 	
 	// -----------------------------------------------------------------------------------
 	public void initDrivers(Context _context){
-		//mServiceDNS = new ServiceNSD(_context);
-		HubConnectionBluetooth.initBluetooth(_context);
+		// initNSD(_context);
+		initBluetooth(_context);
 	}
 	
 	// -----------------------------------------------------------------------------------
@@ -73,4 +76,14 @@ public class ConnectionLoader {
 		HubConnectionBluetooth.unloadBluetooth(_context);
 	}
 	
+	
+	private void initBluetooth(Context _context){
+		HubConnectionBluetooth.initBluetooth(_context);
+		mCurrentConnection = new HubConnectionBluetooth();
+	}
+	
+	private void initNSD(Context _context){
+		mServiceDNS = new ServiceNSD(_context);
+	
+	}
 }

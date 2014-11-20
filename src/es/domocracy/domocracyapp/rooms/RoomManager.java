@@ -17,6 +17,7 @@ import es.domocracy.domocracyapp.comm.HubConnection;
 import es.domocracy.domocracyapp.comm.Message;
 import es.domocracy.domocracyapp.comm.MessageDispatcher;
 import es.domocracy.domocracyapp.comm.MessageListener;
+import es.domocracy.domocracyapp.database.InfoCollector;
 import es.domocracy.domocracyapp.devices.Device;
 import es.domocracy.domocracyapp.devices.DeviceType;
 import es.domocracy.domocracyapp.ui.Interface;
@@ -40,6 +41,8 @@ public class RoomManager {
 		mInterface = _interface;
 
 		mRoomList = new ArrayList<Room>();
+		
+		// Dummy room, add device. 
 		mNewDeviceRoom = new Room((byte) 0x00, "New Device",
 				new ArrayList<Device>());
 
@@ -66,7 +69,9 @@ public class RoomManager {
 	// -----------------------------------------------------------------------------------------------------------------
 	// Private interface
 	private void loadRooms() {
-
+		mRoomList.addAll(InfoCollector.getRooms(mCurrentConnection));
+		mInterface.updateRoomList(mRoomList);
+		mInterface.updateDeviceList(mRoomList.get(0).devices());
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------
