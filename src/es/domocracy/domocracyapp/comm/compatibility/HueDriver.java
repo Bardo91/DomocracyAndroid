@@ -59,43 +59,51 @@ public class HueDriver {
 	private PHSDKListener mHueListener = new PHSDKListener() {
 		
 		@Override
-		public void onParsingErrors(List<PHHueParsingError> arg0) {
+		public void onParsingErrors(List<PHHueParsingError> _errors) {
 			Log.d("DMC-HUE", "Parsed Error");
 		}
 		
 		@Override
-		public void onError(int arg0, String arg1) {
+		public void onError(int _error, String _errorStr) {
 			Log.d("DMC-HUE", "Error");
 		}
 		
 		@Override
-		public void onConnectionResumed(PHBridge arg0) {
+		public void onConnectionResumed(PHBridge _bridge) {
 			Log.d("DMC-HUE", "Connection Resumed");
 		}
 		
 		@Override
-		public void onConnectionLost(PHAccessPoint arg0) {
+		public void onConnectionLost(PHAccessPoint _accessPoint) {
 			Log.d("DMC-HUE", "Connection Lost");
 		}
 		
 		@Override
-		public void onCacheUpdated(List<Integer> arg0, PHBridge arg1) {
+		public void onCacheUpdated(List<Integer> _type, PHBridge _bridge) {
 			Log.d("DMC-HUE", "Cache Updated");
 		}
 		
 		@Override
-		public void onBridgeConnected(PHBridge arg0) {
+		public void onBridgeConnected(PHBridge _bridge) {
 			Log.d("DMC-HUE", "Bridge Connected");
+			mHueSDK.setSelectedBridge(_bridge);
+            mHueSDK.enableHeartbeat(_bridge, PHHueSDK.HB_INTERVAL);
 		}
 		
 		@Override
-		public void onAuthenticationRequired(PHAccessPoint arg0) {
+		public void onAuthenticationRequired(PHAccessPoint _accessPoint) {
 			Log.d("DMC-HUE", "Authentication Required");
+			// Waiting 4 authentication. 666 TODO some display
+			mHueSDK.startPushlinkAuthentication(_accessPoint);
 		}
 		
 		@Override
-		public void onAccessPointsFound(List<PHAccessPoint> arg0) {
+		public void onAccessPointsFound(List<PHAccessPoint> _accessPoints) {
 			Log.d("DMC-HUE", "Access Points Found");
+			// Connecting to the first access point. 666 TODO: check last connection.  
+			PHAccessPoint ap = _accessPoints.get(0);
+			ap.setUsername("MeAndMe");	// 666 TODO: random user name or account user name.
+		 	mHueSDK.connect(ap);
 		}
 	};
 	

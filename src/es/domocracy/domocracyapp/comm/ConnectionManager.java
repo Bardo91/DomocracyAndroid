@@ -72,7 +72,7 @@ public class ConnectionManager {
 		// initNSD(_context);
 		initBluetooth(_context);
 		mHueDriver = HueDriver.get();
-		//mHueDriver.searchBridge();
+		mHueDriver.searchBridge();
 	}
 	
 	// -----------------------------------------------------------------------------------

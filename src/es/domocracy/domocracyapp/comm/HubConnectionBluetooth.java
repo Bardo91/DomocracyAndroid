@@ -15,6 +15,7 @@ import android.util.Log;
 public class HubConnectionBluetooth extends HubConnection {
 	// -----------------------------------------------------------------------------------
 	// Static bluetooth adapter initialization
+	//-----------------------------------------------------------------------------------------------------------------
 	final private String HubName = "HC-06";
 	static private BluetoothAdapter mBtAdapter;
 
@@ -33,7 +34,7 @@ public class HubConnectionBluetooth extends HubConnection {
 		Log.d("DMC_BT", "Bluetooth Enabled");
 	}
 	
-	
+	//-----------------------------------------------------------------------------------------------------------------
 	static public void unloadBluetooth(Context _context){
 		if(mBtAdapter.isEnabled()){
 			mBtAdapter.disable();
@@ -41,6 +42,7 @@ public class HubConnectionBluetooth extends HubConnection {
 		Log.d("DMC_BT", "Bluetooth Disabled");
 	}
 	
+	//-----------------------------------------------------------------------------------------------------------------
 	// Bluetooth Broadcast receiver.
 	private final BroadcastReceiver mBtReceiver = new BroadcastReceiver() {
 		public void onReceive(Context context, Intent intent) {
@@ -50,16 +52,22 @@ public class HubConnectionBluetooth extends HubConnection {
 				Log.d("DMC_BT", "Founded device");
 				BluetoothDevice device = intent
 						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-				if (device.getName().equals(HubName)) { // 666 TODO: connect to
-														// different bts
-					Log.d("DMC_BT", "Found " + HubName);
-					mBtAdapter.cancelDiscovery();
-					connect2Device(device);
+				try{
+					if (device.getName().equals(HubName)) {
+						Log.d("DMC_BT", "Found " + HubName);
+						mBtAdapter.cancelDiscovery();
+						connect2Device(device);
+					}
+				}
+				catch(NullPointerException _e){
+					Log.d("DMC-BT", "Device is null");
+					_e.printStackTrace();
 				}
 			}
 		}
 	};
 
+	//-----------------------------------------------------------------------------------------------------------------
 	private void registerBtReceiver(Context _context) {
 		// Register the BroadcastReceiver
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
@@ -67,6 +75,7 @@ public class HubConnectionBluetooth extends HubConnection {
 		Log.d("DMC_BT", "Registered listener");
 	}
 
+	//-----------------------------------------------------------------------------------------------------------------
 	private void unregisterBtReceiver(Context _context) {
 		_context.unregisterReceiver(mBtReceiver);
 		Log.d("DMC_BT", "Unregister listener");
@@ -74,6 +83,7 @@ public class HubConnectionBluetooth extends HubConnection {
 
 	// -----------------------------------------------------------------------------------
 	// HubConnection
+	//-----------------------------------------------------------------------------------------------------------------
 	public static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	private BluetoothSocket mHubSocket;
 	private Thread connectionThread;
@@ -106,6 +116,7 @@ public class HubConnectionBluetooth extends HubConnection {
 		return (mHubSocket != null && mHubSocket.isConnected()) ? true : false;
 	}
 
+	//-----------------------------------------------------------------------------------------------------------------
 	public void connect2Device(BluetoothDevice device) {
 		final BluetoothDevice mmDevice = device;
 
