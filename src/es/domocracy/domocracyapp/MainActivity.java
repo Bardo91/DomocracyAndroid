@@ -89,12 +89,10 @@ public class MainActivity extends ActionBarActivity {
 	// Private Interface
 	private void initConnection(){
 		mConnectionManager = new ConnectionManager(this);
-		
 		mHubConnection = mConnectionManager.currentConnection();
-
 		// Init MessageDispatcher
 		MessageDispatcher.init(mHubConnection);
-
+		
 	}
 
 	// -----------------------------------------------------------------------------------
