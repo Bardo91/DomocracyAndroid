@@ -9,7 +9,6 @@
 package es.domocracy.domocracyapp.rooms;
 
 import java.util.List;
-import java.util.UUID;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -20,15 +19,15 @@ import es.domocracy.domocracyapp.devices.Device;
 public class Room {
 	// -----------------------------------------------------------------------------------
 	// Room members
-	private UUID mUUID;
+	private byte mId;
 	private String mName;
 	private List<Device> mDevices;
 	private View mRoomView;
 
 	// -----------------------------------------------------------------------------------
 	// Room basic interface
-	public Room(UUID _uuid, String _name, List<Device> _devices) {
-		mUUID = _uuid;
+	public Room(byte _id, String _name, List<Device> _devices) {
+		mId = _id;
 		mName = _name;
 		mDevices = _devices;
 	}
@@ -39,8 +38,8 @@ public class Room {
 	}
 
 	// -----------------------------------------------------------------------------------
-	public UUID UUID() {
-		return mUUID;
+	public byte id() {
+		return mId;
 	}
 
 	// -----------------------------------------------------------------------------------
@@ -49,6 +48,12 @@ public class Room {
 			mDevices.add(_device);
 		}
 		
+	}
+	
+	// -----------------------------------------------------------------------------------
+	public void eraseDevice(int _position){
+		assert(mDevices.size() < _position);	//	Bad object position
+		mDevices.remove(_position);
 	}
 	
 	// -----------------------------------------------------------------------------------

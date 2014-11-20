@@ -22,6 +22,7 @@ public abstract class HubConnection {
 	protected Hub mHub;
 	protected InputStream mInStream;
 	protected OutputStream mOutStream;
+	private final int SLEEP_TIME = 200;
 
 	private int mBufferLenght = 0;
 	private byte[] mPersistentBuffer = new byte[2048];
@@ -86,6 +87,9 @@ public abstract class HubConnection {
 			@Override
 			public void run() {
 				for (;;) {
+					try { sleep(SLEEP_TIME); } 
+					catch (InterruptedException sleep_exception) {}
+					
 					byte[] buffer = new byte[1024];
 
 					int nBytes = 0;

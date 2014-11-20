@@ -16,8 +16,8 @@ import es.domocracy.domocracyapp.comm.ConnectionLoader;
 import es.domocracy.domocracyapp.comm.HubConnection;
 import es.domocracy.domocracyapp.comm.Message;
 import es.domocracy.domocracyapp.comm.MessageDispatcher;
-import es.domocracy.domocracyapp.database.InfoCollector;
 import es.domocracy.domocracyapp.rooms.RoomManager;
+import es.domocracy.domocracyapp.ui.Interface;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -27,8 +27,8 @@ public class MainActivity extends ActionBarActivity {
 	private HubConnection mHubConnection;
 
 	private RoomManager mRooms;
-
-	// -----------------------------------------------------------------------------------
+	private Interface mInterface;
+// 	-----------------------------------------------------------------------------------
 	// MainActivity interface
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,10 +100,10 @@ public class MainActivity extends ActionBarActivity {
 
 	// -----------------------------------------------------------------------------------
 	void initInterface(){
-		mRooms = new RoomManager(this, mHubConnection);
+		mInterface = new Interface(this);
 		
-		mRooms.fillRoomList(InfoCollector.getRooms(mHubConnection));
-		mRooms.setDevices(0); // 666 TODO Set default room or last room, or so
+		mRooms = new RoomManager(mHubConnection, mInterface);
+		
 	}
 	
 }
