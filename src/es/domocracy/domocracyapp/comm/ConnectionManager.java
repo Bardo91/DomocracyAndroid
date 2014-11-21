@@ -13,16 +13,17 @@ import java.util.List;
 import java.util.UUID;
 
 import android.content.Context;
-import es.domocracy.domocracyapp.comm.compatibility.HueDriver;
+import es.domocracy.domocracyapp.comm.compatibility.HueConnection;
 
 public class ConnectionManager {
 
 	// -----------------------------------------------------------------------------------
 	// ConnectionLoader members
-	static private HubConnection mCurrentConnection;
+	private HubConnection mCurrentConnection;
+	private HueConnection mHueDriver;
 	private List<Hub> mHubList;
 	private ServiceNSD mServiceDNS;
-	private HueDriver mHueDriver;
+
 	
 	// -----------------------------------------------------------------------------------
 	// ConnectionLoader public interface
@@ -70,24 +71,15 @@ public class ConnectionManager {
 	// -----------------------------------------------------------------------------------
 	public void initDrivers(Context _context){
 		// initNSD(_context);
-		initBluetooth(_context);
-		mHueDriver = HueDriver.get();
-		mHueDriver.searchBridge();
+		mServiceDNS = new ServiceNSD(_context);
+		
+		// Init bluetooth
+		HubConnectionBluetooth.initBluetooth(_context);
+		mCurrentConnection = new HubConnectionBluetooth();
 	}
 	
 	// -----------------------------------------------------------------------------------
 	public void unloadDrivers(Context _context){
 		HubConnectionBluetooth.unloadBluetooth(_context);
-	}
-	
-	
-	private void initBluetooth(Context _context){
-		HubConnectionBluetooth.initBluetooth(_context);
-		mCurrentConnection = new HubConnectionBluetooth();
-	}
-	
-	private void initNSD(Context _context){
-		mServiceDNS = new ServiceNSD(_context);
-	
 	}
 }
