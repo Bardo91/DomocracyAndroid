@@ -21,7 +21,7 @@ public class HueConnection{
 	//-----------------------------------------------------------------------------------------------------------------
 	static private PHHueSDK mHueSDK = null;   
 	
-	private static void init(){
+	public static void init(){
 		mHueSDK = PHHueSDK.create();
 		mHueSDK.setAppName("Domocracy");
 		mHueSDK.setDeviceName(android.os.Build.MODEL);
@@ -38,15 +38,19 @@ public class HueConnection{
 	//-----------------------------------------------------------------------------------------------------------------
 	// Public interface	
 	//-----------------------------------------------------------------------------------------------------------------
-	public void searchBridge(){
-		if(mHueSDK == null){
-			init();
-		}
-		mHueSDK.getNotificationManager().registerSDKListener(mHueListener);
-		PHBridgeSearchManager sm = (PHBridgeSearchManager) mHueSDK.getSDKService(PHHueSDK.SEARCH_BRIDGE);
-		sm.search(true, true); 		
+	public HueConnection(){
+		searchBridge();
+		
+	}
+
+	public void disconnect(){
+		if (mHueSDK.isHeartbeatEnabled(mBridge)) {
+        	mHueSDK.disableHeartbeat(mBridge);
+        }
+        mHueSDK.disconnect(mBridge);
 	}
 	
+	//-----------------------------------------------------------------------------------------------------------------
 	public void changeLight(int _light, int _hue, int _brightness){		
 		PHLightState state = new PHLightState();
 		state.setHue(_hue);
@@ -57,9 +61,19 @@ public class HueConnection{
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------
+	public boolean isConnected(){
+		return mBridge != null;
+	}
 	
 	//-----------------------------------------------------------------------------------------------------------------
 	// Private interface	
+	//-----------------------------------------------------------------------------------------------------------------
+	private void searchBridge(){
+		mHueSDK.getNotificationManager().registerSDKListener(mHueListener);
+		PHBridgeSearchManager sm = (PHBridgeSearchManager) mHueSDK.getSDKService(PHHueSDK.SEARCH_BRIDGE);
+		sm.search(true, true); 		
+	}
+	
 	//-----------------------------------------------------------------------------------------------------------------
 	private PHSDKListener mHueListener = new PHSDKListener() {
 		

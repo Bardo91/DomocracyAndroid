@@ -14,12 +14,12 @@ public class MessageDispatcher {
 		
 	// -----------------------------------------------------------------------------------------------------------------
 	// Public interface
-	static public void init(HubConnection _connection) {
+	static public void init(ConnectionManager _conMgr) {
 		if(mDispatcherInstance == null){
 			mDispatcherInstance = new MessageDispatcher();			
 		}
 		
-		mHubConnection = _connection;			// 666 Check if there's another possibility
+		mHubConnection = _conMgr.currentConnection();			// 666 Check if there's another possibility
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------

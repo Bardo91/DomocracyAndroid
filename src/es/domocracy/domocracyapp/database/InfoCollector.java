@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import es.domocracy.domocracyapp.comm.HubConnection;
+import es.domocracy.domocracyapp.comm.ConnectionManager;
 import es.domocracy.domocracyapp.devices.Device;
 import es.domocracy.domocracyapp.devices.DeviceState;
 import es.domocracy.domocracyapp.devices.DeviceType;
 import es.domocracy.domocracyapp.rooms.Room;
 
 public class InfoCollector {
-	static public List<Room> getRooms(HubConnection _hubConnection){
+	static public List<Room> getRooms(ConnectionManager _conMgr){
 		List<Room> rooms = new ArrayList<Room>();
 		
 		String[] roomNames = {"Timmy", "Johny", "Tony", "Colly", "Polly"};
@@ -29,7 +29,7 @@ public class InfoCollector {
 			//									null, 
 			//									_hubConnection));
 			//}
-			devices.add(Device.getDevice((byte) 0x15, "Lampara", new DeviceType(), new DeviceState(), _hubConnection));
+			devices.add(Device.getDevice((byte) 0x15, "Lampara", new DeviceType(), new DeviceState(), _conMgr));
 			rooms.add(new Room((byte) 0x69, roomNames[i], devices));
 		}
 		

@@ -19,8 +19,8 @@ public class ConnectionManager {
 
 	// -----------------------------------------------------------------------------------
 	// ConnectionLoader members
-	private HubConnection mCurrentConnection;
-	private HueConnection mHueDriver;
+	private HubConnection mCurrentConnection;	
+	private HueConnection mHueConnection;
 	private List<Hub> mHubList;
 	private ServiceNSD mServiceDNS;
 
@@ -30,6 +30,8 @@ public class ConnectionManager {
 	public ConnectionManager(Context _context) {
 		mHubList = new ArrayList<Hub>();	
 		initDrivers(_context);
+		
+		mHueConnection = new HueConnection();
 	}
 	
 	// -----------------------------------------------------------------------------------
@@ -63,9 +65,9 @@ public class ConnectionManager {
 		return mCurrentConnection;
 	}
 	
-	// -----------------------------------------------------------------------------------	
-	public void disconnect(Context _context){
-		mCurrentConnection.closeConnection(_context);
+	// -----------------------------------------------------------------------------------
+	public HueConnection hueConnection(){
+		return mHueConnection;
 	}
 	
 	// -----------------------------------------------------------------------------------
@@ -76,6 +78,9 @@ public class ConnectionManager {
 		// Init bluetooth
 		HubConnectionBluetooth.initBluetooth(_context);
 		mCurrentConnection = new HubConnectionBluetooth();
+		
+		// Init Hue driver
+		HueConnection.init();
 	}
 	
 	// -----------------------------------------------------------------------------------

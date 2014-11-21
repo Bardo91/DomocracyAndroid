@@ -91,7 +91,7 @@ public class MainActivity extends ActionBarActivity {
 		mConnectionManager = new ConnectionManager(this);
 		mHubConnection = mConnectionManager.currentConnection();
 		// Init MessageDispatcher
-		MessageDispatcher.init(mHubConnection);
+		MessageDispatcher.init(mConnectionManager);
 		
 	}
 
@@ -99,7 +99,7 @@ public class MainActivity extends ActionBarActivity {
 	void initInterface(){
 		mInterface = new Interface(this);
 		
-		mRooms = new RoomManager(mHubConnection, mInterface);
+		mRooms = new RoomManager(mConnectionManager, mInterface);
 		
 	}
 	

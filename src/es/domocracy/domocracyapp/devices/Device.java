@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import es.domocracy.domocracyapp.R;
+import es.domocracy.domocracyapp.comm.ConnectionManager;
 import es.domocracy.domocracyapp.comm.HubConnection;
 import es.domocracy.domocracyapp.comm.Message;
 import es.domocracy.domocracyapp.devices.devicecontrollers.DeviceController;
@@ -20,13 +21,13 @@ public class Device {
 
 	// -----------------------------------------------------------------------------------
 	static public Device getDevice(byte _uuid, String _name,
-			DeviceType _type, DeviceState _state, HubConnection _hubConnection) {
+			DeviceType _type, DeviceState _state, ConnectionManager _conMgr) {
 		// If dev exist, get it.
 		if (existingDevices.containsKey(_uuid)) {
 			return existingDevices.get(_uuid);
 		}
 		// If not, create a new device and store it
-		Device dev = new Device(_uuid, _name, _type, _state, _hubConnection);
+		Device dev = new Device(_uuid, _name, _type, _state, _conMgr.currentConnection());
 		existingDevices.put(_uuid, dev);
 		return dev;
 	}

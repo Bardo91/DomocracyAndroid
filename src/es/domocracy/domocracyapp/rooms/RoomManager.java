@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.util.Log;
-import es.domocracy.domocracyapp.comm.HubConnection;
+import es.domocracy.domocracyapp.comm.ConnectionManager;
 import es.domocracy.domocracyapp.comm.Message;
 import es.domocracy.domocracyapp.comm.MessageDispatcher;
 import es.domocracy.domocracyapp.comm.MessageListener;
@@ -28,15 +28,15 @@ public class RoomManager {
 	private List<Room> mRoomList;
 	private Room mNewDeviceRoom;
 
-	private HubConnection mCurrentConnection;
+	private ConnectionManager mConnectionManager;
 	private MessageListener mMessageListener;
 
 	private Interface mInterface;
 
 	// -----------------------------------------------------------------------------------
 	// RoomList basic interface
-	public RoomManager(HubConnection _hubConnection, Interface _interface) {
-		mCurrentConnection = _hubConnection;
+	public RoomManager(ConnectionManager _conMgr, Interface _interface) {
+		mConnectionManager = _conMgr;
 
 		mInterface = _interface;
 
@@ -69,7 +69,7 @@ public class RoomManager {
 	// -----------------------------------------------------------------------------------------------------------------
 	// Private interface
 	private void loadRooms() {
-		mRoomList.addAll(InfoCollector.getRooms(mCurrentConnection));
+		mRoomList.addAll(InfoCollector.getRooms(mConnectionManager));
 		mInterface.updateRoomList(mRoomList);
 		mInterface.updateDeviceList(mRoomList.get(0).devices());
 	}
@@ -93,7 +93,7 @@ public class RoomManager {
 					
 					mNewDeviceRoom.addDevice(Device.getDevice(	_message.payload()[1],
 																new String(Arrays.copyOfRange(_message.payload(),1 ,_message.payload().length)),
-																new DeviceType(), null, mCurrentConnection));
+																new DeviceType(), null, mConnectionManager));
 					
 					mInterface.updateRoomList(mRoomList);
 				}
