@@ -128,7 +128,7 @@ public class HueConnection{
 			Log.d("DMC-HUE", "Access Points Found");
 			// Connecting to the first access point. 666 TODO: check last connection.  
 			PHAccessPoint ap = _accessPoints.get(0);
-			ap.setUsername("MeAndMe");	// 666 TODO: random user name or account user name.
+			ap.setUsername("newdeveloper");	// 666 TODO: random user name or account user name.
 		 	mHueSDK.connect(ap);
 		}
 	};
