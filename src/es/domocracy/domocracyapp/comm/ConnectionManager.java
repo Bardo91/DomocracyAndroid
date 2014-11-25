@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.UUID;
 
 import android.content.Context;
-import es.domocracy.domocracyapp.comm.compatibility.HueConnection;
 
 public class ConnectionManager {
 

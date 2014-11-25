@@ -1,4 +1,4 @@
-package es.domocracy.domocracyapp.comm.compatibility;
+package es.domocracy.domocracyapp.comm;
 
 import java.util.List;
 
@@ -26,6 +26,8 @@ public class HueConnection{
 		mHueSDK.setAppName("Domocracy");
 		mHueSDK.setDeviceName(android.os.Build.MODEL);
 		
+		Log.d("DMC-HUE", "Hue's SDK initialized");
+		
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------
@@ -39,7 +41,7 @@ public class HueConnection{
 	// Public interface	
 	//-----------------------------------------------------------------------------------------------------------------
 	public HueConnection(){
-		searchBridge();
+		searchBridgeLan();
 		
 	}
 
@@ -48,6 +50,7 @@ public class HueConnection{
         	mHueSDK.disableHeartbeat(mBridge);
         }
         mHueSDK.disconnect(mBridge);
+        Log.d("DMC-HUE", "Unloaded Hue's SDK");
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------
@@ -57,6 +60,7 @@ public class HueConnection{
 		state.setBrightness(_brightness);
 		
 		mBridge.updateLightState(mLightList.get(_light), state);	// 666: no callback used
+		Log.d("DMC-HUE", "Changing light");
 		
 	}
 	
@@ -68,10 +72,11 @@ public class HueConnection{
 	//-----------------------------------------------------------------------------------------------------------------
 	// Private interface	
 	//-----------------------------------------------------------------------------------------------------------------
-	private void searchBridge(){
+	private void searchBridgeLan(){
 		mHueSDK.getNotificationManager().registerSDKListener(mHueListener);
 		PHBridgeSearchManager sm = (PHBridgeSearchManager) mHueSDK.getSDKService(PHHueSDK.SEARCH_BRIDGE);
-		sm.search(true, true); 		
+		sm.search(true, true); 	
+		Log.d("DMC-HUE", "Started Brigde Discovering Mode");
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------
