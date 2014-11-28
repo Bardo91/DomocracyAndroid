@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import es.domocracy.domocracyapp.comm.ConnectionManager;
+import es.domocracy.domocracyapp.comm.HubConnection;
 import es.domocracy.domocracyapp.devices.Device;
 import es.domocracy.domocracyapp.devices.DeviceState;
 import es.domocracy.domocracyapp.devices.DeviceType;
@@ -29,7 +30,10 @@ public class InfoCollector {
 			//									null, 
 			//									_hubConnection));
 			//}
-			devices.add(Device.getDevice((byte) 0x15, "Lampara", new DeviceType(), new DeviceState(), _conMgr));
+			
+			// 666 TODO: where is the info about the device type? Default. wifi.
+			HubConnection connection = _conMgr.wifiConnection();
+			devices.add(Device.getDevice((byte) 0x15, "Lampara", new DeviceType(), new DeviceState(), connection));
 			rooms.add(new Room((byte) 0x69, roomNames[i], devices));
 		}
 		

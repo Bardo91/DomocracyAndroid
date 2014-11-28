@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import es.domocracy.domocracyapp.R;
-import es.domocracy.domocracyapp.comm.ConnectionManager;
 import es.domocracy.domocracyapp.comm.HubConnection;
 import es.domocracy.domocracyapp.comm.Message;
 import es.domocracy.domocracyapp.devices.devicecontrollers.DeviceController;
@@ -21,13 +20,13 @@ public class Device {
 
 	// -----------------------------------------------------------------------------------
 	static public Device getDevice(byte _uuid, String _name,
-			DeviceType _type, DeviceState _state, ConnectionManager _conMgr) {
+			DeviceType _type, DeviceState _state, HubConnection _connection) {
 		// If dev exist, get it.
 		if (existingDevices.containsKey(_uuid)) {
 			return existingDevices.get(_uuid);
 		}
 		// If not, create a new device and store it
-		Device dev = new Device(_uuid, _name, _type, _state, _conMgr);
+		Device dev = new Device(_uuid, _name, _type, _state, _connection);
 		existingDevices.put(_uuid, dev);
 		return dev;
 	}
@@ -80,13 +79,12 @@ public class Device {
 	
 	// -----------------------------------------------------------------------------------
 	// Device private interface
-	private Device(byte _uuid, String _name, DeviceType _type, DeviceState _state, ConnectionManager _conMgr) {
+	private Device(byte _uuid, String _name, DeviceType _type, DeviceState _state, HubConnection _connection) {
 		mUUID = _uuid;
 		mName = _name;
 		mState = _state;
 		mControllers = _type.buildControllers(this);
-		// 666 TODO: choose connection depend on type.
-		mCurrentConnection = _conMgr.currentConnection();
+		mCurrentConnection = _connection;
 		mState = new DeviceState();
 
 	}

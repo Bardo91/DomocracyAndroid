@@ -14,6 +14,7 @@ import java.util.List;
 
 import android.util.Log;
 import es.domocracy.domocracyapp.comm.ConnectionManager;
+import es.domocracy.domocracyapp.comm.HubConnection;
 import es.domocracy.domocracyapp.comm.Message;
 import es.domocracy.domocracyapp.comm.MessageDispatcher;
 import es.domocracy.domocracyapp.comm.MessageListener;
@@ -91,9 +92,12 @@ public class RoomManager {
 						mRoomList.add(0, mNewDeviceRoom);
 					}
 					
+					// 666 TODO: where is the info about the device type? Default. wifi.
+					HubConnection connection = mConnectionManager.wifiConnection();
+					
 					mNewDeviceRoom.addDevice(Device.getDevice(	_message.payload()[1],
 																new String(Arrays.copyOfRange(_message.payload(),1 ,_message.payload().length)),
-																new DeviceType(), null, mConnectionManager));
+																new DeviceType(), null, connection));
 					
 					mInterface.updateRoomList(mRoomList);
 				}
