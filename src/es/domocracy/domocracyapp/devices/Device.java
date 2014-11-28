@@ -27,7 +27,7 @@ public class Device {
 			return existingDevices.get(_uuid);
 		}
 		// If not, create a new device and store it
-		Device dev = new Device(_uuid, _name, _type, _state, _conMgr.currentConnection());
+		Device dev = new Device(_uuid, _name, _type, _state, _conMgr);
 		existingDevices.put(_uuid, dev);
 		return dev;
 	}
@@ -80,12 +80,12 @@ public class Device {
 	
 	// -----------------------------------------------------------------------------------
 	// Device private interface
-	private Device(byte _uuid, String _name, DeviceType _type, DeviceState _state, HubConnection _hubConnection) {
+	private Device(byte _uuid, String _name, DeviceType _type, DeviceState _state, ConnectionManager _conMgr) {
 		mUUID = _uuid;
 		mName = _name;
 		mState = _state;
 		mControllers = _type.buildControllers(this);
-		mCurrentConnection = _hubConnection;
+		mCurrentConnection = _conMgr.currentConnection();
 		mState = new DeviceState();
 
 	}

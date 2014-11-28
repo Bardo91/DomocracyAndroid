@@ -12,14 +12,11 @@ import java.net.InetAddress;
 import java.util.Date;
 import java.util.UUID;
 
+import es.domocracy.domocracyapp.comm.ConnectionManager.eConnectionTypes;
+
 public class Hub {
 	// -----------------------------------------------------------------------------------
-	// Hub factory
-	enum eConnectionTypes {
-		eWifi, eBluetooth
-	};
-	
-	
+	// Hub factory	
 
 	// -----------------------------------------------------------------------------------
 	// Hub information

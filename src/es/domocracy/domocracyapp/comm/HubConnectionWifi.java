@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import es.domocracy.domocracyapp.comm.ConnectionManager.eConnectionTypes;
 import android.content.Context;
 import android.util.Log;
 
@@ -38,7 +39,7 @@ public class HubConnectionWifi extends HubConnection {
 	// -----------------------------------------------------------------------------------
 	protected final int TIMEOUT = 2000;
 	public boolean connectToHub(final Hub _hub, Context _context) {
-		assert(_hub.connType() == Hub.eConnectionTypes.eWifi);
+		assert(_hub.connType() == eConnectionTypes.eWifi);
 		
 		Thread t = new Thread() {
 
