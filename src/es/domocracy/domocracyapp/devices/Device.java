@@ -85,6 +85,7 @@ public class Device {
 		mName = _name;
 		mState = _state;
 		mControllers = _type.buildControllers(this);
+		// 666 TODO: choose connection depend on type.
 		mCurrentConnection = _conMgr.currentConnection();
 		mState = new DeviceState();
 

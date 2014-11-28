@@ -2,6 +2,7 @@ package es.domocracy.domocracyapp.comm;
 
 import java.util.List;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.philips.lighting.hue.sdk.PHAccessPoint;
@@ -40,20 +41,6 @@ public class HueConnection implements HubConnection{
 	//-----------------------------------------------------------------------------------------------------------------
 	// Public interface	
 	//-----------------------------------------------------------------------------------------------------------------
-	public HueConnection(){
-		searchBridgeLan();
-		
-	}
-
-	public void disconnect(){
-		if (mHueSDK.isHeartbeatEnabled(mBridge)) {
-        	mHueSDK.disableHeartbeat(mBridge);
-        }
-        mHueSDK.disconnect(mBridge);
-        Log.d("DMC-HUE", "Unloaded Hue's SDK");
-	}
-	
-	//-----------------------------------------------------------------------------------------------------------------
 	public void changeLight(int _light, int _hue, int _brightness){		
 		PHLightState state = new PHLightState();
 		state.setHue(_hue);
@@ -67,6 +54,39 @@ public class HueConnection implements HubConnection{
 	//-----------------------------------------------------------------------------------------------------------------
 	public boolean isConnected(){
 		return mBridge != null;
+	}
+	
+	//-----------------------------------------------------------------------------------------------------------------
+	@Override
+	public boolean connectToHub(Hub _hub, Context _context) {
+		searchBridgeLan();
+		// 666 TODO: timeout?
+		return true;
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	@Override
+	public boolean closeConnection(Context _context) {
+		if (mHueSDK.isHeartbeatEnabled(mBridge)) {
+        	mHueSDK.disableHeartbeat(mBridge);
+        }
+        mHueSDK.disconnect(mBridge);
+        Log.d("DMC-HUE", "Unloaded Hue's SDK");
+        return true;
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	@Override
+	public boolean sendMsg(Message _msg) {
+		// TODO decode messages and use private methods as change light.
+		return false;
+	}
+
+	//-----------------------------------------------------------------------------------------------------------------
+	@Override
+	public Message readBuffer() {
+		// TODO... read messages from cache or so on.
+		return null;
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------
@@ -137,7 +157,6 @@ public class HueConnection implements HubConnection{
 		 	mHueSDK.connect(ap);
 		}
 	};
-	
 	
 	//-----------------------------------------------------------------------------------------------------------------
 	

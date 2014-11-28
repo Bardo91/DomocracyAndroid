@@ -78,7 +78,7 @@ public class ConnectionManager {
 	public void closeConnections(Context _context) {
 		mWifiConnection.closeConnection(_context);
 		mBluetoothConnection.closeConnection(_context);
-		mHueConnection.disconnect();
+		mHueConnection.closeConnection(_context);
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
