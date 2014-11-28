@@ -31,9 +31,16 @@ public class InfoCollector {
 			//									_hubConnection));
 			//}
 			
-			// 666 TODO: where is the info about the device type? Default. wifi.
-			HubConnection connection = _conMgr.wifiConnection();
-			devices.add(Device.getDevice((byte) 0x15, "Lampara", new DeviceType(), new DeviceState(), connection));
+			// 666 TODO: where is the info about the device type?
+			HubConnection connectionWifi = _conMgr.wifiConnection();
+			devices.add(Device.getDevice((byte) 0x15, "Lampara Wifi", new DeviceType(), new DeviceState(), connectionWifi));
+			
+			HubConnection connectionBt = _conMgr.bluetoothConnection();
+			devices.add(Device.getDevice((byte) 0x15, "Lampara Bluetooth", new DeviceType(), new DeviceState(), connectionBt));
+			
+			HubConnection connectionHue = _conMgr.hueConnection();
+			devices.add(Device.getDevice((byte) 0x15, "Lampara Hue", new DeviceType(), new DeviceState(), connectionHue));
+			
 			rooms.add(new Room((byte) 0x69, roomNames[i], devices));
 		}
 		
