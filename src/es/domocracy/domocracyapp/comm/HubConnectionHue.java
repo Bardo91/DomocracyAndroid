@@ -1,5 +1,6 @@
 package es.domocracy.domocracyapp.comm;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -36,7 +37,7 @@ public class HubConnectionHue implements HubConnection{
 	// Class members	
 	//-----------------------------------------------------------------------------------------------------------------
 	private PHBridge mBridge = null;
-	private List<PHLight> mLightList = null;
+	private List<PHLight> mLightList = new ArrayList<PHLight>();
 	
 	
 	//-----------------------------------------------------------------------------------------------------------------
@@ -69,9 +70,12 @@ public class HubConnectionHue implements HubConnection{
 	@Override
 	public boolean sendMsg(Message _msg) {
 		// 666 TODO: decode msg.
-		Random random = new Random();
-		changeLight(1, random.nextInt(360), 100);
+		if(mBridge != null){
+			Random random = new Random();
+			changeLight(1, random.nextInt(360), 100);
 		return true;
+		}
+		return false;
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -142,6 +146,9 @@ public class HubConnectionHue implements HubConnection{
             mHueSDK.enableHeartbeat(_bridge, PHHueSDK.HB_INTERVAL);
             
             mBridge = _bridge;
+            
+            PHBridgeResourcesCache cache =  _bridge.getResourceCache();
+            mLightList = cache.getAllLights();
 		}
 		
 		@Override
