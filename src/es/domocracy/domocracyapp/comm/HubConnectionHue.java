@@ -16,7 +16,7 @@ import com.philips.lighting.model.PHHueParsingError;
 import com.philips.lighting.model.PHLight;
 import com.philips.lighting.model.PHLightState;
 
-public class HueConnection implements HubConnection{
+public class HubConnectionHue implements HubConnection{
 	//-----------------------------------------------------------------------------------------------------------------
 	//Static interface	
 	//-----------------------------------------------------------------------------------------------------------------

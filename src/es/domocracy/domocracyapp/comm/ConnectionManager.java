@@ -20,7 +20,7 @@ public class ConnectionManager {
 	// ConnectionLoader members
 	private HubConnectionBluetooth mBluetoothConnection;
 	private HubConnectionWifi mWifiConnection;
-	private HueConnection mHueConnection;
+	private HubConnectionHue mHueConnection;
 	private List<Hub> mHubList;
 	private ServiceNSD mServiceDNS;
 
@@ -36,7 +36,7 @@ public class ConnectionManager {
 
 		///mWifiConnection = (HubConnectionWifi) connect(_context, eConnectionTypes.eWifi);
 		//mBluetoothConnection = (HubConnectionBluetooth) connect(_context, eConnectionTypes.eBluetooth);
-		mHueConnection = (HueConnection) connect(_context, eConnectionTypes.eWifi);
+		mHueConnection = (HubConnectionHue) connect(_context, eConnectionTypes.eHue);
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ public class ConnectionManager {
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
-	public HueConnection hueConnection() {
+	public HubConnectionHue hueConnection() {
 		return mHueConnection;
 	}
 
@@ -90,7 +90,7 @@ public class ConnectionManager {
 		HubConnectionBluetooth.initBluetooth(_context);
 
 		// Init Hue driver
-		HueConnection.init();
+		HubConnectionHue.init();
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
