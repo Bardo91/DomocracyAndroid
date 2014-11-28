@@ -19,7 +19,7 @@ public class MessageDispatcher {
 			mDispatcherInstance = new MessageDispatcher();			
 		}
 		
-		mHubConnection = _conMgr.currentConnection();			// 666 Check if there's another possibility
+		mHubConnection = _conMgr.wifiConnection();			// 666 Check if there's another possibility
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------

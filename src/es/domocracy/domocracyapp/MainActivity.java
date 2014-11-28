@@ -13,8 +13,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import es.domocracy.domocracyapp.comm.ConnectionManager;
-import es.domocracy.domocracyapp.comm.HubConnection;
-import es.domocracy.domocracyapp.comm.Message;
 import es.domocracy.domocracyapp.comm.MessageDispatcher;
 import es.domocracy.domocracyapp.rooms.RoomManager;
 import es.domocracy.domocracyapp.ui.Interface;
@@ -24,7 +22,6 @@ public class MainActivity extends ActionBarActivity {
 	// -----------------------------------------------------------------------------------
 	// Main's activity members
 	private ConnectionManager mConnectionManager;
-	private HubConnection mHubConnection;
 
 	private RoomManager mRooms;
 	private Interface mInterface;
@@ -45,14 +42,13 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	public void onStop() {
 		super.onStop();
-		mHubConnection.closeConnection(this);
+		mConnectionManager.closeConnections(this);
 	}
 
 	// -----------------------------------------------------------------------------------
 	@Override
 	public void onStart() {
 		super.onStart();
-		mConnectionManager.connect(this);
 	}
 
 	@Override
@@ -75,10 +71,10 @@ public class MainActivity extends ActionBarActivity {
 		if (id == R.id.action_settings) {
 			return true;
 		}else if (id == R.id.add_device_settings) {
-			// 666 TODO: where to gather functions that are related to the system.
-			mHubConnection.sendMsg(new Message(	(byte) 0x02, 
-													Message.Type.Look4Devices.value, 
-													new byte[0]));
+			// 666 TODO: deprecated methods
+			//mHubConnection.sendMsg(new Message(	(byte) 0x02, 
+			//										Message.Type.Look4Devices.value, 
+			//										new byte[0]));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -89,7 +85,6 @@ public class MainActivity extends ActionBarActivity {
 	// Private Interface
 	private void initConnection(){
 		mConnectionManager = new ConnectionManager(this);
-		mHubConnection = mConnectionManager.currentConnection();
 		// Init MessageDispatcher
 		MessageDispatcher.init(mConnectionManager);
 		
