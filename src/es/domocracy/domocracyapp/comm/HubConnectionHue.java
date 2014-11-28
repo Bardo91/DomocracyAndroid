@@ -1,6 +1,7 @@
 package es.domocracy.domocracyapp.comm;
 
 import java.util.List;
+import java.util.Random;
 
 import android.content.Context;
 import android.util.Log;
@@ -41,17 +42,6 @@ public class HubConnectionHue implements HubConnection{
 	//-----------------------------------------------------------------------------------------------------------------
 	// Public interface	
 	//-----------------------------------------------------------------------------------------------------------------
-	public void changeLight(int _light, int _hue, int _brightness){		
-		PHLightState state = new PHLightState();
-		state.setHue(_hue);
-		state.setBrightness(_brightness);
-		
-		mBridge.updateLightState(mLightList.get(_light), state);	// 666: no callback used
-		Log.d("DMC-HUE", "Changing light");
-		
-	}
-	
-	//-----------------------------------------------------------------------------------------------------------------
 	public boolean isConnected(){
 		return mBridge != null;
 	}
@@ -78,8 +68,10 @@ public class HubConnectionHue implements HubConnection{
 	//-----------------------------------------------------------------------------------------------------------------
 	@Override
 	public boolean sendMsg(Message _msg) {
-		// TODO decode messages and use private methods as change light.
-		return false;
+		// 666 TODO: decode msg.
+		Random random = new Random();
+		changeLight(1, random.nextInt(360), 100);
+		return true;
 	}
 
 	//-----------------------------------------------------------------------------------------------------------------
@@ -97,6 +89,17 @@ public class HubConnectionHue implements HubConnection{
 		PHBridgeSearchManager sm = (PHBridgeSearchManager) mHueSDK.getSDKService(PHHueSDK.SEARCH_BRIDGE);
 		sm.search(true, true); 	
 		Log.d("DMC-HUE", "Started Brigde Discovering Mode");
+	}
+	
+	//-----------------------------------------------------------------------------------------------------------------
+	public void changeLight(int _light, int _hue, int _brightness){		
+		PHLightState state = new PHLightState();
+		state.setHue(_hue);
+		state.setBrightness(_brightness);
+		
+		mBridge.updateLightState(mLightList.get(_light), state);	// 666: no callback used
+		Log.d("DMC-HUE", "Changing light");
+		
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------------

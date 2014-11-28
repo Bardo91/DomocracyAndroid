@@ -34,9 +34,9 @@ public class ConnectionManager {
 		mHubList = new ArrayList<Hub>();
 		initDrivers(_context);
 
-		///mWifiConnection = (HubConnectionWifi) connect(_context, eConnectionTypes.eWifi);
-		//mBluetoothConnection = (HubConnectionBluetooth) connect(_context, eConnectionTypes.eBluetooth);
-		mHueConnection = (HubConnectionHue) connect(_context, eConnectionTypes.eHue);
+		connect(_context, eConnectionTypes.eWifi);
+		connect(_context, eConnectionTypes.eBluetooth);
+		connect(_context, eConnectionTypes.eHue);
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
@@ -55,22 +55,20 @@ public class ConnectionManager {
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
-	public HubConnection connect(Context _context, eConnectionTypes _type) {
+	public void connect(Context _context, eConnectionTypes _type) {
 		switch (_type) {
 		case eWifi:
 			connectWifi(_context);
-			return mWifiConnection;
+			
 		case eBluetooth:
 			connectBluetooth(_context);
-			return mBluetoothConnection;
+			
 		case eHue:
 			connectHue(_context);
-			return mHueConnection;
+			
 		default:
 			assert (false); // 666 TODO: not supported connection.
 		}
-
-		return null;
 
 	}
 
@@ -135,7 +133,10 @@ public class ConnectionManager {
 
 	// ---------------------------------------------------------------------------------------------------------------
 	private void connectHue(Context _context) {
-
+		if(mHueConnection == null)
+			mHueConnection = new HubConnectionHue();
+		
+		mHueConnection.connectToHub(null, _context);
 	}
 
 }
