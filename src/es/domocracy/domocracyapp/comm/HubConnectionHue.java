@@ -42,7 +42,7 @@ public class HubConnectionHue implements HubConnection{
 	
 	//-----------------------------------------------------------------------------------------------------------------
 	// Public interface	
-	//-----------------------------------------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------------	
 	public boolean isConnected(){
 		return mBridge != null;
 	}
@@ -71,7 +71,14 @@ public class HubConnectionHue implements HubConnection{
 	public boolean sendMsg(Message _msg) {
 		// 666 TODO: decode msg.
 		if(mBridge != null){
-			changeLight(_msg.payload()[0], _msg.payload()[1]*650, 255);
+			if(_msg.type() == Message.Type.ON.value){
+				changeLight(_msg.payload()[0], 0, 255);
+			}else if(_msg.type() == Message.Type.OFF.value){
+				changeLight(_msg.payload()[0], 0, 0);
+			}else if (_msg.type() == Message.Type.Dimmer.value){
+				changeLight(_msg.payload()[0], _msg.payload()[1]*650, 255);
+			}
+				
 		return true;
 		}
 		return false;
@@ -97,8 +104,14 @@ public class HubConnectionHue implements HubConnection{
 	//-----------------------------------------------------------------------------------------------------------------
 	public void changeLight(int _light, int _hue, int _brightness){		
 		PHLightState state = new PHLightState();
-		state.setHue(_hue);
-		state.setBrightness(_brightness);
+		if(_hue != 0)
+			state.setHue(_hue);
+		else {
+			if(_brightness > 125)
+				state.setOn(true);
+			else
+				state.setOn(false);
+		}
 		
 		mBridge.updateLightState(mLightList.get(_light), state);	// 666: no callback used
 		Log.d("DMC-HUE", "Changing light");

@@ -39,7 +39,7 @@ public class InfoCollector {
 			//devices.add(Device.getDevice((byte) 0x15, "Lampara Bluetooth", new DeviceType(), new DeviceState(), connectionBt));
 			
 			HubConnection connectionHue = _conMgr.hueConnection();
-			devices.add(Device.getDevice((byte) 0x15, "Lampara Hue", new DeviceType(), new DeviceState(), connectionHue));
+			devices.add(Device.getDevice((byte) 0x1, "Lampara Hue", new DeviceType(), new DeviceState(), connectionHue));
 			
 			rooms.add(new Room((byte) 0x69, roomNames[i], devices));
 		}
