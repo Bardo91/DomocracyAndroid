@@ -40,10 +40,12 @@ public class Interface {
 		//-----------------------------------------------------------------------------------------------------------------
 		// Private Interface	
 		private void initActionBar(Activity _activity){
-			mTopMenu = _activity.getActionBar();
+			// 666 TODO: init action bar
 			
-			mTopMenu.setDisplayHomeAsUpEnabled(true);
-			mTopMenu.setHomeButtonEnabled(true);
+			//mTopMenu = _activity.getActionBar();
+			//
+			//mTopMenu.setDisplayHomeAsUpEnabled(true);
+			//mTopMenu.setHomeButtonEnabled(true);
 		}
 		
 		//-----------------------------------------------------------------------------------------------------------------

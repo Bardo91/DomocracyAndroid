@@ -71,8 +71,7 @@ public class HubConnectionHue implements HubConnection{
 	public boolean sendMsg(Message _msg) {
 		// 666 TODO: decode msg.
 		if(mBridge != null){
-			Random random = new Random();
-			changeLight(1, random.nextInt(65535), 255);
+			changeLight(_msg.payload()[0], _msg.payload()[1]*650, 255);
 		return true;
 		}
 		return false;
